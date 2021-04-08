@@ -1,0 +1,3 @@
+syntax error around :Line:35 ,type:] ,lexeme:].   Line:36 ,type:id ,lexeme:arr
+matching error around : expect ';', not Line:36 ,type:] ,lexeme:]
+syntax error around :Line:36 ,type:] ,lexeme:].   Line:36 ,type:= ,lexeme:=

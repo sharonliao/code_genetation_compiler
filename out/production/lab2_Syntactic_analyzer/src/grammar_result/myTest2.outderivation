@@ -1,0 +1,259 @@
+<nestedid> -> epsilon
+<inherit> -> 'inherits' 'id' <nestedid> 
+<visibility> -> 'private' 
+<type> -> 'float' 
+<arraysizerept> -> epsilon
+<vardecl> -> <type> 'id' <arraysizerept> ';' 
+<memberdecl> -> <vardecl> 
+<classdeclbody> -> <visibility> <memberdecl> 
+<classdeclbodylist> -> epsilon
+<classdeclbodylist> -> <classdeclbody> <classdeclbodylist> 
+<classdecl> -> 'class' 'id' <inherit> '{' <classdeclbodylist> '}' ';' 
+<classdecllist> -> epsilon
+<classdecllist> -> <classdecl> <classdecllist> 
+<classmethod> -> 'sr' 'id' 
+<type> -> 'float' 
+<arraysizerept> -> epsilon
+<fparam> -> <type> 'id' <arraysizerept> 
+<fparamstail> -> epsilon
+<fparams> -> <fparam> <fparamstail> 
+<type> -> 'float' 
+<funcdecltail> -> <type> 
+<funchead> -> 'func' 'id' <classmethod> '(' <fparams> ')' ':' <funcdecltail> 
+<type> -> 'id' 
+<arraysizerept> -> epsilon
+<vardecl> -> <type> 'id' <arraysizerept> ';' 
+<vardeclrep> -> epsilon
+<vardeclrep> -> <vardecl> <vardeclrep> 
+<methodbodyvar> -> 'var' '{' <vardeclrep> '}' 
+<indicerep> -> epsilon
+<indicerep> -> epsilon
+<assignop> -> '=' 
+<funcorvaridnest> -> epsilon
+<funcorvar> -> 'id' <funcorvaridnest> 
+<factor> -> <funcorvar> 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> epsilon
+<expr> -> <arithexpr> <exprtail> 
+<assignstattail> -> <assignop> <expr> 
+<funcorassignstatidnestvartail> -> <assignstattail> 
+<funcorassignstatidnest> -> <indicerep> <funcorassignstatidnestvartail> 
+<funcorassignstatidnestvartail> -> '.' 'id' <funcorassignstatidnest> 
+<funcorassignstatidnest> -> <indicerep> <funcorassignstatidnestvartail> 
+<funcorassignstat> -> 'id' <funcorassignstatidnest> 
+<statement> -> <funcorassignstat> ';' 
+<statementlist> -> epsilon
+<statementlist> -> <statement> <statementlist> 
+<funcbody> -> '{' <methodbodyvar> <statementlist> '}' 
+<function> -> <funchead> <funcbody> 
+<funcdef> -> epsilon
+<funcdef> -> <function> <funcdef> 
+<type> -> 'id' 
+<arraysizerept> -> epsilon
+<vardecl> -> <type> 'id' <arraysizerept> ';' 
+<vardeclrep> -> epsilon
+<vardeclrep> -> <vardecl> <vardeclrep> 
+<methodbodyvar> -> 'var' '{' <vardeclrep> '}' 
+<indicerep> -> epsilon
+<assignop> -> '=' 
+<indicerep> -> epsilon
+<sign> -> '-' 
+<factor> -> 'floatlit' 
+<factor> -> <sign> <factor> 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> epsilon
+<expr> -> <arithexpr> <exprtail> 
+<factor> -> 'floatlit' 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> epsilon
+<expr> -> <arithexpr> <exprtail> 
+<factor> -> 'floatlit' 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> epsilon
+<expr> -> <arithexpr> <exprtail> 
+<aparamstail> -> epsilon
+<aparamstail> -> ',' <expr> <aparamstail> 
+<aparamstail> -> ',' <expr> <aparamstail> 
+<aparams> -> <expr> <aparamstail> 
+<funcorvaridnesttail> -> epsilon
+<funcorvaridnest> -> '(' <aparams> ')' <funcorvaridnesttail> 
+<funcorvaridnesttail> -> '.' 'id' <funcorvaridnest> 
+<funcorvaridnest> -> <indicerep> <funcorvaridnesttail> 
+<funcorvar> -> 'id' <funcorvaridnest> 
+<factor> -> <funcorvar> 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> epsilon
+<expr> -> <arithexpr> <exprtail> 
+<assignstattail> -> <assignop> <expr> 
+<funcorassignstatidnestvartail> -> <assignstattail> 
+<funcorassignstatidnest> -> <indicerep> <funcorassignstatidnestvartail> 
+<funcorassignstat> -> 'id' <funcorassignstatidnest> 
+<statement> -> <funcorassignstat> ';' 
+<funcorvaridnest> -> epsilon
+<funcorvar> -> 'id' <funcorvaridnest> 
+<factor> -> <funcorvar> 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexpr> -> <term> <arithexprtail> 
+<relop> -> 'lt' 
+<funcorvaridnest> -> epsilon
+<funcorvar> -> 'id' <funcorvaridnest> 
+<factor> -> <funcorvar> 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<addop> -> '-' 
+<factor> -> 'intlit' 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexprtail> -> <addop> <term> <arithexprtail> 
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> <relop> <arithexpr> 
+<expr> -> <arithexpr> <exprtail> 
+<funcorvaridnest> -> epsilon
+<funcorvar> -> 'id' <funcorvaridnest> 
+<factor> -> <funcorvar> 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> epsilon
+<expr> -> <arithexpr> <exprtail> 
+<indicerep> -> epsilon
+<indicerep> -> '[' <expr> ']' <indicerep> 
+<funcorvaridnesttail> -> epsilon
+<funcorvaridnest> -> <indicerep> <funcorvaridnesttail> 
+<funcorvar> -> 'id' <funcorvaridnest> 
+<factor> -> <funcorvar> 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexpr> -> <term> <arithexprtail> 
+<relop> -> 'gt' 
+<funcorvaridnest> -> epsilon
+<funcorvar> -> 'id' <funcorvaridnest> 
+<factor> -> <funcorvar> 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<addop> -> '+' 
+<factor> -> 'intlit' 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexprtail> -> <addop> <term> <arithexprtail> 
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> epsilon
+<expr> -> <arithexpr> <exprtail> 
+<indicerep> -> epsilon
+<indicerep> -> '[' <expr> ']' <indicerep> 
+<funcorvaridnesttail> -> epsilon
+<funcorvaridnest> -> <indicerep> <funcorvaridnesttail> 
+<funcorvar> -> 'id' <funcorvaridnest> 
+<factor> -> <funcorvar> 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> <relop> <arithexpr> 
+<expr> -> <arithexpr> <exprtail> 
+<indicerep> -> epsilon
+<assignop> -> '=' 
+<funcorvaridnest> -> epsilon
+<funcorvar> -> 'id' <funcorvaridnest> 
+<factor> -> <funcorvar> 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> epsilon
+<expr> -> <arithexpr> <exprtail> 
+<indicerep> -> '[' <expr> ']' <indicerep> 
+<funcorvaridnesttail> -> epsilon
+<funcorvaridnest> -> <indicerep> <funcorvaridnesttail> 
+<funcorvar> -> 'id' <funcorvaridnest> 
+<factor> -> <funcorvar> 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<addop> -> '+' 
+<factor> -> 'intlit' 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexprtail> -> <addop> <term> <arithexprtail> 
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> epsilon
+<expr> -> <arithexpr> <exprtail> 
+<assignstattail> -> <assignop> <expr> 
+<funcorassignstatidnestvartail> -> <assignstattail> 
+<funcorassignstatidnest> -> <indicerep> <funcorassignstatidnestvartail> 
+<funcorassignstat> -> 'id' <funcorassignstatidnest> 
+<statementlist> -> <statement> <statementlist> 
+<statblock> -> '{' <statementlist> '}' 
+<factor> -> 'intlit' 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> epsilon
+<expr> -> <arithexpr> <exprtail> 
+<factor> -> 'intlit' 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> epsilon
+<expr> -> <arithexpr> <exprtail> 
+<factor> -> 'intlit' 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> epsilon
+<expr> -> <arithexpr> <exprtail> 
+<indicerep> -> epsilon
+<indicerep> -> '[' <expr> ']' <indicerep> 
+<indicerep> -> '[' <expr> ']' <indicerep> 
+<indicerep> -> '[' <expr> ']' <indicerep> 
+<assignop> -> '=' 
+<factor> -> 'intlit' 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> epsilon
+<expr> -> <arithexpr> <exprtail> 
+<assignstattail> -> <assignop> <expr> 
+<funcorassignstatidnestvartail> -> <assignstattail> 
+<funcorassignstatidnest> -> <indicerep> <funcorassignstatidnestvartail> 
+<funcorassignstat> -> 'id' <funcorassignstatidnest> 
+<statement> -> <funcorassignstat> ';' 
+<statementlist> -> epsilon
+<statementlist> -> <statement> <statementlist> 
+<statblock> -> '{' <statementlist> '}' 
+<statement> -> 'if' '(' <expr> ')' 'then' <statblock> 'else' <statblock> ';' 
+<statementlist> -> epsilon
+<statementlist> -> <statement> <statementlist> 
+<statblock> -> '{' <statementlist> '}' 
+<statement> -> 'while' '(' <expr> ')' <statblock> ';' 
+<statementlist> -> epsilon
+<statementlist> -> <statement> <statementlist> 
+<statementlist> -> <statement> <statementlist> 
+<funcbody> -> '{' <methodbodyvar> <statementlist> '}' 
+<prog> -> <classdecllist> <funcdef> 'main' <funcbody> 
+<start> -> <prog> 

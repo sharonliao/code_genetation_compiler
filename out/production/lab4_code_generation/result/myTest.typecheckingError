@@ -1,0 +1,21 @@
+Fucntion call error:  linear1.build(2,3.5),  Can't find the class aaaa
+
+AssignStatNode type error: linear1=linear1.build(2,3.5);,  linear1(aaaa) and (TypeError)
+
+Fucntion call error:  test.testArr(arr,0),  testArr( integer,integer, )
+
+Var error:  counter.ab,  Can't find the  class ( counter ) , use of undeclared class
+
+AssignStatNode type error: counter.ab=0;,  (TypeError) and 0(integer)
+
+Var error:  linear1.ab,  Can't find the  class ( linear1 ) , use of undeclared class
+
+AssignStatNode type error: linear1.ab=0;,  (TypeError) and 0(integer)
+
+Fucntion call error:  evaluate(counter),  evaluate( integer ), can't find this free function 
+
+Fucntion call error:  linear1.evaluate(counter),  Can't find the class aaaa
+
+Fucntion call error:  linear1.evaluate(floatCounter),  Can't find the class aaaa
+
+

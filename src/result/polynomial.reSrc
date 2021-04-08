@@ -1,0 +1,36 @@
+evaluate(float x;)float {
+  return(0);
+}
+evaluate(float x;)float {
+  result=0.0;
+  result=a*x+b;
+  return(result);
+}
+evaluate(float x;)float {
+  result=a;
+  result=result*x+b;
+  result=result*x+c;
+  return(result);
+}
+build(float A; float B;)LINEAR {
+  new_function.a=A;
+  new_function.b=B;
+  return(new_function);
+}
+build(float A; float B; float C;)QUADRATIC {
+  new_function.a=A;
+  new_function.b=B;
+  new_function.c=C;
+  return(new_function);
+}
+program{
+  
+  {
+  f1=f1.build(2,3.5);
+  f2=f2.build(-2.0,1.0,0.0);
+  counter=1;
+  
+}
+
+}
+

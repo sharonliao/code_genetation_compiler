@@ -1,0 +1,56 @@
+// ====== Class declarations ====== //
+class POLYNOMIAL inherits POLYNOMIAL_1{
+    private float b;
+	public func evaluate(float x[][][], int b) : float;
+};
+
+// ====== Function Definitions ====== //
+func POLYNOMIAL::evaluate(float x) : float
+{
+    var
+    {
+      LINEAR new_function;
+    }
+    result = a * x + b;
+    new_function.a = b;
+}
+
+func POLYNOMIAL::test1(int x) : void
+{
+    var
+    {
+      AClass new_function2;
+    }
+    new_function.a = b;
+    f1.evaluate(counter);
+    //a[1][2].b(12) = 0;  //error, this function call can not be assignStatement
+    a[1][2].b(12); // function call
+    //a[1][2].b(12).a(cd).a[1][2]; // error, must end with function call
+    a[1][2].b(12).a(cd).a[1][2].c();
+    a[1][2] = f1.evaluate(v); // good
+    assss.bbbb = c;
+}
+
+// ====== main ====== //
+main
+{
+  var
+  {
+    linear f1;
+  }
+  f2 = f2.build(-2.0, 1.0, 0.0);
+    while (i < n-1) {
+      if (arr[j] > arr[j+1])
+        then {
+          temp = arr[j];
+          arr[j+1] = temp;
+          arr[] = c; // error, missing intLint
+          j = j+1;
+      }else {
+        arr[9][9][0] = 90;
+        a = arr[9][9][0].get();
+        a = b + 4 + 6 * 10 + (6 - 8);
+        };
+      i = i+1;
+    };
+ }

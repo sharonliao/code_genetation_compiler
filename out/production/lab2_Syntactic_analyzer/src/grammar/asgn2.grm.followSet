@@ -1,0 +1,57 @@
+ADDOP	###	intlit floatlit stringlit lpar not qm id plus minus
+APARAMSTAIL	###	rpar
+ARITHEXPRTAIL	###	semi eq neq lt gt leq geq comma colon rsqbr rpar
+ASSIGNOP	###	intlit floatlit stringlit lpar not qm id plus minus
+CLASSDECLBODY	###	public private func integer float string id rcurbr
+CLASSDECLBODYLIST	###	rcurbr
+CLASSDECL	###	func main class
+EXPRTAIL	###	semi comma colon rsqbr rpar
+ARITHEXPR	###	semi eq neq lt gt leq geq comma colon rsqbr rpar
+FPARAM	###	rpar comma
+FPARAMSTAIL	###	rpar
+CLASSMETHOD	###	lpar
+FPARAMS	###	rpar
+FUNCDECLTAIL	###	lcurbr semi
+FUNCORASSIGNSTATIDNESTFUNCTAIL	###	semi
+FUNCORASSIGNSTATIDNESTVARTAIL	###	semi
+FUNCORASSIGNSTATIDNEST	###	semi
+ASSIGNSTATTAIL	###	semi
+FUNCORVAR	###	mult div and semi eq neq lt gt leq geq plus minus or comma colon rsqbr rpar
+FUNCORVARIDNESTTAIL	###	mult div and semi eq neq lt gt leq geq plus minus or comma colon rsqbr rpar
+FUNCORVARIDNEST	###	mult div and semi eq neq lt gt leq geq plus minus or comma colon rsqbr rpar
+APARAMS	###	rpar
+FUNCSTATTAILIDNEST	###	semi
+FUNCSTATTAIL	###	semi
+FUNCTION	###	main func
+FUNCHEAD	###	lcurbr
+INHERIT	###	lcurbr
+INTNUM	###	rsqbr
+MEMBERDECL	###	public private func integer float string id rcurbr
+FUNCDECL	###	public private func integer float string id rcurbr
+METHODBODYVAR	###	if while read write return break continue id rcurbr
+NESTEDID	###	lcurbr
+CLASSDECLLIST	###	func main
+FUNCDEF	###	main
+FUNCBODY	###	main func
+RELOP	###	intlit floatlit stringlit lpar not qm id plus minus
+SIGN	###	intlit floatlit stringlit lpar not qm id plus minus
+START	###	$
+PROG	###	$
+FUNCORASSIGNSTAT	###	semi
+STATBLOCK	###	else semi
+EXPR	###	semi comma colon rsqbr rpar
+STATEMENT	###	if while read write return break continue id else semi rcurbr
+STATEMENTLIST	###	rcurbr
+TERM	###	semi eq neq lt gt leq geq plus minus or comma colon rsqbr rpar
+MULTOP	###	intlit floatlit stringlit lpar not qm id plus minus
+FACTOR	###	mult div and semi eq neq lt gt leq geq plus minus or comma colon rsqbr rpar
+TERMTAIL	###	semi eq neq lt gt leq geq plus minus or comma colon rsqbr rpar
+TYPE	###	lcurbr semi id
+ARRAYSIZEREPT	###	semi rpar comma
+VARDECL	###	public private func integer float string id rcurbr
+VARDECLREP	###	rcurbr
+VARIABLE	###	rpar
+INDICEREP	###	mult div and semi equal dot eq neq lt gt leq geq plus minus or comma colon rsqbr rpar
+VARIABLEIDNESTTAIL	###	rpar
+VARIABLEIDNEST	###	rpar
+VISIBILITY	###	func integer float string id

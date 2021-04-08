@@ -1,0 +1,34 @@
+class POLYNOMIAL {
+	public func evaluate(float x) : float;
+};
+
+class LINEAR inherits POLYNOMIAL {
+	private float a;
+	private float b;
+
+	public func build(float A, float B) : LINEAR;
+	public func evaluate(float x) : float;
+};
+
+func bubbleSort1(integer size, String name, String num) : void
+{
+  a = b;
+}
+
+func LINEAR::evaluate(float x) : float
+{
+  var
+  {
+    float result;
+  }
+  result = 0.0;
+  result = a * x + b;
+  return (result);
+}
+
+main 
+{
+  arr[9][9][0] = 90;
+  a = arr[9][9][0].get();
+  a = b + 4 + 6 * 10 + (6 - 8);
+}

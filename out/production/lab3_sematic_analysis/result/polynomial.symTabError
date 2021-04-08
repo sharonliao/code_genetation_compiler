@@ -1,0 +1,4 @@
+Error: In ( global ) already has ClassEntry ( POLYNOMIAL )
+Error: Function ( evaluate ) hasn't been defined.
+       func evaluate ( float x, ) : float
+

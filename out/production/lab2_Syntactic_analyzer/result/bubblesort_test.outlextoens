@@ -1,0 +1,35 @@
+
+[class, class, 1] [id, POLYNOMIAL, 1] [{, {, 1] 
+[public, public, 2] [func, func, 2] [id, evaluate, 2] [(, (, 2] [float, float, 2] [id, x, 2] [), ), 2] [:, :, 2] [float, float, 2] [;, ;, 2] 
+[}, }, 3] [;, ;, 3] 
+
+[class, class, 5] [id, LINEAR, 5] [inherits, inherits, 5] [id, POLYNOMIAL, 5] [{, {, 5] 
+[private, private, 6] [float, float, 6] [id, a, 6] [;, ;, 6] 
+[private, private, 7] [float, float, 7] [id, b, 7] [;, ;, 7] 
+
+[public, public, 9] [func, func, 9] [id, build, 9] [(, (, 9] [float, float, 9] [id, A, 9] [,, ,, 9] [float, float, 9] [id, B, 9] [), ), 9] [:, :, 9] [id, LINEAR, 9] [;, ;, 9] 
+[public, public, 10] [func, func, 10] [id, evaluate, 10] [(, (, 10] [float, float, 10] [id, x, 10] [), ), 10] [:, :, 10] [float, float, 10] [;, ;, 10] 
+[}, }, 11] [;, ;, 11] 
+
+[func, func, 13] [id, bubbleSort1, 13] [(, (, 13] [integer, integer, 13] [id, size, 13] [,, ,, 13] [id, String, 13] [id, name, 13] [,, ,, 13] [id, String, 13] [id, num, 13] [), ), 13] [:, :, 13] [void, void, 13] 
+[{, {, 14] 
+[id, a, 15] [=, =, 15] [id, b, 15] [;, ;, 15] 
+[}, }, 16] 
+
+[func, func, 18] [id, LINEAR, 18] [sr, ::, 18] [id, evaluate, 18] [(, (, 18] [float, float, 18] [id, x, 18] [), ), 18] [:, :, 18] [float, float, 18] 
+[{, {, 19] 
+[var, var, 20] 
+[{, {, 21] 
+[float, float, 22] [id, result, 22] [;, ;, 22] 
+[}, }, 23] 
+[id, result, 24] [=, =, 24] [floatlit, 0.0, 24] [;, ;, 24] 
+[id, result, 25] [=, =, 25] [id, a, 25] [*, *, 25] [id, x, 25] [+, +, 25] [id, b, 25] [;, ;, 25] 
+[return, return, 26] [(, (, 26] [id, result, 26] [), ), 26] [;, ;, 26] 
+[}, }, 27] 
+
+[main, main, 29] 
+[{, {, 30] 
+[id, arr, 31] [[, [, 31] [intlit, 9, 31] [], ], 31] [[, [, 31] [intlit, 9, 31] [], ], 31] [[, [, 31] [intlit, 0, 31] [], ], 31] [=, =, 31] [intlit, 90, 31] [;, ;, 31] 
+[id, a, 32] [=, =, 32] [id, arr, 32] [[, [, 32] [intlit, 9, 32] [], ], 32] [[, [, 32] [intlit, 9, 32] [], ], 32] [[, [, 32] [intlit, 0, 32] [], ], 32] [., ., 32] [id, get, 32] [(, (, 32] [), ), 32] [;, ;, 32] 
+[id, a, 33] [=, =, 33] [id, b, 33] [+, +, 33] [intlit, 4, 33] [+, +, 33] [intlit, 6, 33] [*, *, 33] [intlit, 10, 33] [+, +, 33] [(, (, 33] [intlit, 6, 33] [-, -, 33] [intlit, 8, 33] [), ), 33] [;, ;, 33] 
+[}, }, 34] 

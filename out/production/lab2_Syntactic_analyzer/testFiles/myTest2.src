@@ -1,0 +1,43 @@
+// ====== Class declarations ====== //
+class POLYNOMIAL inherits POLYNOMIAL_1{
+    private float b;
+	//public func evaluate(float x[][][], int b) : float;
+};
+
+// ====== Function Definitions ====== //
+func POLYNOMIAL::evaluate(float x) : float
+{
+    var
+    {
+      LINEAR new_function;
+    }
+    new_function.a = b;
+}
+
+/*
+func POLYNOMIAL::test1(int x) : void
+{
+    assss.bbbb = c;
+}
+*/
+// ====== main ====== //
+main
+{
+  var
+  {
+    linear f1;
+  }
+
+  f2 = f2.build(-2.0, 1.0, 0.0);
+    while (i < n-1) {
+      if (arr[j] > arr[j+1])
+        then {
+          temp = arr[j]
+          arr[j+1] = temp;
+          arr[j] = temp;
+      }else {
+        arr[9][9][0] = 90;
+        };
+    };
+
+ }
