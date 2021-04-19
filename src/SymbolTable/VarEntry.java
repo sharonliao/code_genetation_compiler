@@ -51,9 +51,8 @@ public class VarEntry extends SymTabEntry {
 		
 	public String toString(){
 		return 	String.format("%-12s" , "| " + m_kind) +
-				String.format("%-12s" , "| " + m_name) + 
-				String.format("%-12s"  , "| " + m_type) + 
-                String.format("%-12s"  , "| " + getDimsString()) +
+				String.format("%-15s" , "| " + m_name) +
+				String.format("%-15s"  , "| " + (m_type + getDimsString())) +
 				String.format("%-8s"  , "| " + m_size) + 
 				String.format("%-8s"  , "| " + m_offset)
 		        + "|";

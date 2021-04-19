@@ -1,118 +1,43 @@
 // ====== Class declarations ====== //
-class POLYNOMIAL {
-	public func evaluate(float x) : float;  // error , not defined
-	public func testArr(integer arr[][], integer index) : integer;
+
+class POLYNOMIAL{
+    private integer b;
+    private integer d;
+    public func evaluate(integer x) : integer;
 };
 
-class LINEAR inherits POLYNOMIAL {
-	private float a;
-	private float b;
+class LINEAR inherits POLYNOMIAL
+{
+	private integer a;
+	private integer b;
+	POLYNOMIAL polynomial_obj;                             // object data members
 
-	public func build(float A, float B) : LINEAR;
-	public func evaluate(float x) : float;
-};
-
-class QUADRATIC inherits POLYNOMIAL {
-	private float a;
-	private float b;
-	private float c;
-
-	public func build(float A, float B, float C) : QUADRATIC;
-	public func evaluate(float x) : float;
-	public func evaluate(integer x) : float; // warning, overloading
-};
-
-
-class CircularTest inherits AA {  // error, Circular class dependencies
-
-};
-
-class AA inherits BB {
-
-};
-
-class BB inherits CircularTest {
-
+	public func evaluate(integer x) : integer;
 };
 
 
 
 // ====== Function Definitions ====== //
-func evaluate(float x) : float
-{
-  return (0);
-}
 
-func LINEAR::evaluate(float x) : float
+func POLYNOMIAL::evaluate(integer x) : integer
 {
   var
   {
-    float result;
+    integer bb;                                             // if x = 2，then return 3;
   }
-  result = 0.0;
-  result = a * x + b;
-  return (result);
+  bb = 1;
+  return(bb+x);                                            // the function has a return
 }
 
-func QUADRATIC::evaluate(float x) : float
+func LINEAR::evaluate(integer x) : integer
 {
   var
   {
-    float result;
+    integer bb;
   }
-  //Using Horner's method
-  result = a;
-  result = result * x + b;
-  result = result * x + c;
-  return (result);
+  bb = 1;
 }
 
-
-func QUADRATIC::evaluate(integer x) : float
-{
-  var
-  {
-    float result;
-  }
-
-  //result = a;   // type error
-  //result = result * x + b;  // type error
-  //result = result * x + c; // type error
-  //return (result);
-}
-
-
-func LINEAR::build(float A, float B) : LINEAR
-{
-  var
-  {
-    LINEAR new_function;
-  }
-  new_function.a = A;
-  new_function.b = B;
-  return (new_function);
-}
-
-func QUADRATIC::build(float A, float B, float C) : QUADRATIC
-{
-  var
-  {
-    QUADRATIC new_function;
-  }
-  new_function.a = A;
-  new_function.b = B;
-  new_function.c = C;
-  return (new_function);
-}
-
-func POLYNOMIAL::testArr(integer arr[][], integer index) : integer  // testing for dimension of param
-{
-     var
-     {
-       integer result;
-     }
-     result = arr[1][2]+index;
-}
 
 
 // ====== main ====== //
@@ -120,63 +45,69 @@ main
 {
   var
   {
-    aaaa linear1;
-    QUADRATIC quadratic2;
+    POLYNOMIAL polynomial1;                // Allocate memory for objects
+    POLYNOMIAL polynomial2;
+    LINEAR linear1;
+    integer a;                             // Allocate memory for objects
+    integer b;
+    integer c;
+    integer d;
+    integer result;
+    integer express_test;
+    integer array[10][10];                 // Allocate memory for arrays of basic types
     integer counter;
-    float floatCounter;
-    POLYNOMIAL test;
-    integer arr[6]; // can modify dim to test function call
+    integer read_test;
+    POLYNOMIAL array_object[10];           // Allocate memory for arrays of objects
+
   }
-  linear1 = linear1.build(2, 3.5);  // error,need build(float,float)
-  quadratic2 = quadratic2.build(-2.0, 1.0, 0.0);
+  polynomial1.b = 1;                       // For objects, access to members of basic types
+  polynomial2.d = 1;
+  polynomial2.b = 1;
+  write(polynomial1.b); // print 1
 
-  counter = 1; // integer counter
-  floatCounter = 1.0;
-  test.testArr(arr,0); // testing function call
+  linear1.polynomial_obj.b = 2;            // For objects, access to members of object types
+  b = linear1.polynomial_obj.b;
+  write(b); // print 2
 
-  counter.ab = 0; // error, count isn't a class
-  linear1.ab = 0; // error, class LINEAR doesn't have var ab
+  c = polynomial1.b + polynomial2.b;
 
-  while(counter <= 10)
-  {
-    write(counter);
-    evaluate(counter); // error,  param must be float
-    linear1.evaluate(counter); // error, evaluate(float x)
-    linear1.evaluate(floatCounter); // good
-    quadratic2.evaluate(counter); // good, call overloading function evaluate(integer x)
+  result = polynomial1.evaluate(c);        // Pass parameters as local values to the function’s code block.
+  write(result); //print 3                 // Upon execution of a return statement, pass the return value back to the calling function.
+
+  array[1][1]=4;                         // For arrays of basic types (integer), access to an array’s elements.
+  write(array[1][1]); //print 4
+
+  array_object[2].b = 5;                 // For arrays of objects, access to an array’s element’s data members
+  write(array_object[2].b); //print 5
+
+  express_test = 4*3+(4+100)/(1+1)-58;        // Computing the value of an entire complex expression
+  write(express_test); //print 6
+
+
+  read(read_test); //test input 3            // Input statement
+
+  if (result>2) // result = 3               // if statement, branch1
+    then {
+        write(read_test+4);  //print 7
+     } else {
+        write(2000);
+     };
+
+  if (result<2)                           // if statement, branch2
+     then {
+         write(999);
+      } else {
+         write(read_test+5);  //print 8
+      };
+
+  counter = 9;
+
+  while(counter<11){                        // while loop
+      write(counter);   // print 9 10
+      counter = counter + 1;
   };
-}
+ }
 
-/*
-1.   |X| global symbol table
-2.   |X| class symbol table
-3.1  |X| class data member
-3.2  |X| function's local variable
-4.1  |X| free function
-4.2  |X| member function
-6.1  | | undeclared member function definition
-6.2  | | undefined member function declaration
-8.1  | | multiply declared class
-8.2  | | multiply declared free function
-8.3  | | multiply declared identifier in class
-8.4  | | multiply declared identifier in function
-8.5  | | shadowed inherited data member
-9.1  | | Overloaded free function
-9.2  | | Overloaded member function
-9.3  | | Overridden inherited member function
-10.1 | | Type error in expression
-10.2 | | Type error in assignment statement
-10.3 | | Type error in return statement
-11.1 | | Undeclared local variable
-11.2 | | Undeclared data member
-11.3 | | Undeclared member function
-11.4 | | Undeclared free function
-11.5 | | Undeclared class
-12.1 | | Function call with wrong number of parameters
-12.2 | | Function call with wrong type of parameters
-13.1 | | Use of array with wrong number of dimensions
-13.2 | | Array index is not an integer
-13.3 | | Array parameter using wrong number of dimensions
-14.1 | | Circular class dependency
-15.1 | | "." operator used on non-class type
-*/
+
+
+

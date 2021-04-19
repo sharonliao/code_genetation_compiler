@@ -424,4 +424,8 @@ public class ReconstructSourceProgramVisitor  extends Visitor {
         }
         p_node.setSubtreeString(str);
     }
+
+	public void visit(DotNode p_node){
+
+	}
 }

@@ -19,8 +19,8 @@ public class InheritEntry extends SymTabEntry {
             ifLinked = "not linked";
         }
         return 	String.format("%-12s" , "| " + m_kind) +
-                String.format("%-12s" , "| " + m_name) +
-                String.format("%-28s"  , "| " + m_type) +
+                String.format("%-15s" , "| " + m_name) +
+                String.format("%-15s"  , "| " + m_type) +
                 "| " + ifLinked;
     }
 }

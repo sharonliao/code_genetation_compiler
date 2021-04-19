@@ -17,12 +17,22 @@ import java.util.Vector;
  * 
  */
 
+
+//statement 加temp var
+//有哪些statement 需要temp var
+//AddOpNode MultOpNode NumNode FuncCallNode SignNode RelOpNode 作为tempVar加入table
+//SignNode 看做0-node 或者 0+node（+可以忽略）
+
+
 public class TypeCheckingVisitor extends Visitor {
 
 	public String m_outputfilename = new String();
 	public String m_errors         = new String();
 	public SymTab currentScope;
 	public SymTab globalTable;
+    public Integer m_tempVarNum     = 0;
+
+    public String m_symTabfilename = new String();;
     
 	public TypeCheckingVisitor() {
 	}
@@ -30,6 +40,11 @@ public class TypeCheckingVisitor extends Visitor {
 	public TypeCheckingVisitor(String p_filename) {
 		this.m_outputfilename = p_filename; 
 	}
+
+    public String getNewTempVarName(){
+        m_tempVarNum++;
+        return "t" + m_tempVarNum.toString();
+    }
 
 	public void visit(ProgNode p_node) {
 		// propagate accepting the same visitor to all the children
@@ -39,6 +54,7 @@ public class TypeCheckingVisitor extends Visitor {
         currentScope = p_node.m_symtab;
 		for (Node child : p_node.getChildren())
 			child.accept(this);
+
 		if (!this.m_outputfilename.isEmpty()) {
 			File file = new File(this.m_outputfilename);
 			try (PrintWriter out = new PrintWriter(file)){ 
@@ -47,6 +63,15 @@ public class TypeCheckingVisitor extends Visitor {
 			catch(Exception e){
 				e.printStackTrace();}
 		}
+		// output symbolTable with tamp vars
+        if (!this.m_symTabfilename.isEmpty()) {
+            File file = new File(this.m_symTabfilename);
+            try (PrintWriter out = new PrintWriter(file)){
+                out.println(p_node.m_symtab);
+            }
+            catch(Exception e){
+                e.printStackTrace();}
+        }
 	};
 
 	public void visit(FuncDeclareNode p_node){
@@ -59,6 +84,7 @@ public class TypeCheckingVisitor extends Visitor {
 
 	public void visit(AddOpNode p_node){
         // idNode, NumNode, varNode, funcCall, add, mlt
+        // 如果 int b = a[1]+a[2] 那这个node应该是int 不是int[]
 		for (Node child : p_node.getChildren() )
 			child.accept(this);
 
@@ -67,8 +93,8 @@ public class TypeCheckingVisitor extends Visitor {
 
 		if( leftOperandType.equals(rightOperandType) ){
             p_node.setType(leftOperandType);
-            VarEntry entry = new VarEntry("var",leftOperandType,"",new Vector<Integer>());
-            p_node.m_symtabentry = entry;
+//            VarEntry entry = new VarEntry("var",leftOperandType,"",new Vector<Integer>());
+//            p_node.m_symtabentry = entry;
 
         } else{
 			p_node.setType("typeerror");
@@ -81,12 +107,15 @@ public class TypeCheckingVisitor extends Visitor {
 					+ "(" + p_node.getChildren().get(1).getType() + ")"
 					+ "\n";
 		}
+        String tempvarname = this.getNewTempVarName();
+        p_node.m_moonVarName = tempvarname;
+        p_node.m_symtabentry = new VarEntry("tempvar", p_node.getType(), p_node.m_moonVarName, new Vector<Integer>());
+        p_node.m_symtab = currentScope;
+        p_node.m_symtab.addEntry(p_node.m_symtabentry);
 	}
 	
 	public void visit(MultOpNode p_node){
-//        System.out.println("visit MultOpNode");
-		// propagate accepting the same visitor to all the children
-		// this effectively achieves Depth-First AST Traversal
+        System.out.println("visit MultOpNode");
 		for (Node child : p_node.getChildren() )
 			child.accept(this);
 
@@ -94,8 +123,6 @@ public class TypeCheckingVisitor extends Visitor {
 		String rightOperandType = p_node.getChildren().get(1).getType();
 		if( leftOperandType.equals(rightOperandType) ){
             p_node.setType(leftOperandType);
-            VarEntry entry = new VarEntry("var",leftOperandType,"",new Vector<Integer>());
-            p_node.m_symtabentry = entry;
         } else{
 			p_node.setType("type error");
 			this.m_errors += "MultOpNode type error: "
@@ -107,6 +134,11 @@ public class TypeCheckingVisitor extends Visitor {
 					+ "(" + p_node.getChildren().get(1).getType() + ")"
 					+ "\n";
 		}
+        String tempvarname = this.getNewTempVarName();
+        p_node.m_moonVarName = tempvarname;
+        p_node.m_symtabentry = new VarEntry("tempvar", p_node.getType(), p_node.m_moonVarName, new Vector<Integer>());
+        p_node.m_symtab = currentScope;
+        p_node.m_symtab.addEntry(p_node.m_symtabentry);
 	}
 	
 	public void visit(AssignStatNode p_node){
@@ -134,6 +166,7 @@ public class TypeCheckingVisitor extends Visitor {
 					+ "(" + p_node.getChildren().get(1).getType() + ")"
 					+ "\n\n";
 		}
+        p_node.m_symtab = currentScope;
 	}
 
 
@@ -166,6 +199,8 @@ public class TypeCheckingVisitor extends Visitor {
                 if(!funCallNode.getChildren().get(index).getClass().getSimpleName().equals("AparamList")){
                     System.out.println(" Error : fucntion call error,  (" + tempVarOrFunc + " ) no params\n");
                     funCallNode.m_type = "TypeError";
+                    createFunCallEntry(funCallNode,entry);
+
                     this.m_errors += "Fucntion call error:  "
                             + funCallNode.getSubtreeString() + ",  "
                             + tempVarOrFunc
@@ -188,6 +223,8 @@ public class TypeCheckingVisitor extends Visitor {
                     System.out.println(" Error : fucntion call error,  '  "+ tempVarOrFunc + "( "+ covertParamlsitToStr_node((ArrayList<Node>) aparamList.getChildren()) +" )  ' , can't find this free function \n");
                     funCallNode.m_type = "TypeError";
                     String paramStr = covertParamlsitToStr_node((ArrayList<Node>) aparamList.getChildren());
+                    createFunCallEntry(funCallNode,entry);
+
                     this.m_errors += "Fucntion call error:  "
                             + funCallNode.getSubtreeString() + ",  "
                             + tempVarOrFunc
@@ -201,6 +238,8 @@ public class TypeCheckingVisitor extends Visitor {
                 //错误的名字
                 System.out.println("Can't find ( " + tempVarOrFunc + " ) \n");
                 funCallNode.m_type = "TypeError";
+                createFunCallEntry(funCallNode,entry);
+
                 this.m_errors += "Fucntion call error:  "
                         + funCallNode.getSubtreeString() + ",  "
                         + "Can't find the  "
@@ -220,6 +259,8 @@ public class TypeCheckingVisitor extends Visitor {
                 } else {
                     System.out.println("Can't find the var (" + tempVarOrFunc +" )");
                     funCallNode.m_type = "TypeError";
+                    createFunCallEntry(funCallNode,entry);
+
                     this.m_errors += "Fucntion call error:  "
                             + funCallNode.getSubtreeString() + ",  "
                             + "Can't find the  "
@@ -233,6 +274,8 @@ public class TypeCheckingVisitor extends Visitor {
                     // toDO
                     System.out.println("Can't find the class (" + varType+" )\n");
                     funCallNode.m_type = "TypeError";
+                    createFunCallEntry(funCallNode,entry);
+
                     this.m_errors += "Fucntion call error:  "
                             + funCallNode.getSubtreeString() + ",  "
                             + "Can't find the class "
@@ -248,6 +291,8 @@ public class TypeCheckingVisitor extends Visitor {
                     if(tempClass.m_subtable.lookupName(tempVarOrFunc).m_kind == null){
                         System.out.println("Can't find the  : (" + tempVarOrFunc + " )  in the class ( "+ tempClass.m_name+" )\n");
                         funCallNode.m_type = "TypeError";
+                        createFunCallEntry(funCallNode,entry);
+
                         this.m_errors += "Fucntion call error:  "
                                 + funCallNode.getSubtreeString() + ",  "
                                 + "Can't find  "
@@ -269,6 +314,8 @@ public class TypeCheckingVisitor extends Visitor {
                         if(!funCallNode.getChildren().get(i).getClass().getSimpleName().equals("AparamList")){
                             System.out.println(" Error : fucntion call error,  (" + tempVarOrFunc + " ) no params\n");
                             funCallNode.m_type = "TypeError";
+                            createFunCallEntry(funCallNode,entry);
+
                             this.m_errors += "Fucntion call error:  "
                                     + funCallNode.getSubtreeString() + ",  "
                                     + tempVarOrFunc
@@ -277,7 +324,7 @@ public class TypeCheckingVisitor extends Visitor {
                             return;
                         }
                         AparamList aparamList = (AparamList) funCallNode.getChildren().get(i);
-
+                        // apramlist 先deep一遍收集信息
                         aparamList.accept(this);
                         ArrayList<VarEntry> aparams = getParamList(aparamList);
 
@@ -290,6 +337,8 @@ public class TypeCheckingVisitor extends Visitor {
                         }else {
                             System.out.println(" Error : fucntion call error,  (" + tempVarOrFunc + " ) , can't find it in class "+ tempClass.m_name+"\n");
                             funCallNode.m_type = "TypeError";
+                            createFunCallEntry(funCallNode,entry);
+
                             String paramStr = covertParamlsitToStr_node((ArrayList<Node>) aparamList.getChildren());
                             this.m_errors += "Fucntion call error:  "
                                     + funCallNode.getSubtreeString() + ",  "
@@ -302,6 +351,8 @@ public class TypeCheckingVisitor extends Visitor {
                         //找到entry，但不是var 也不是 func
                         System.out.println(" Error : the var : (" + tempVarOrFunc + " )  in the class ( "+ tempClass.m_name+" )\n");
                         funCallNode.m_type = "TypeError";
+                        createFunCallEntry(funCallNode,entry);
+
                         this.m_errors += "Fucntion call error:  "
                                 + funCallNode.getSubtreeString() + ",  "
                                 + tempVarOrFunc
@@ -316,6 +367,8 @@ public class TypeCheckingVisitor extends Visitor {
                 if(entry == null || !entry.m_kind.equals("var")) {
                     System.out.println("Dimension Error  :" + tempVarOrFunc + " is a function\n");
                     funCallNode.m_type = "TypeError";
+                    createFunCallEntry(funCallNode,entry);
+
                     this.m_errors += "Fucntion call error:  "
                             + funCallNode.getSubtreeString() + ",  "
                             + tempVarOrFunc
@@ -329,6 +382,8 @@ public class TypeCheckingVisitor extends Visitor {
                     // toDO
                     System.out.println("Dimension Error  :" + tempVarOrFunc + " has wrong dimension\n");
                     funCallNode.m_type = "TypeError";
+                    createFunCallEntry(funCallNode,entry);
+
                     this.m_errors += "Fucntion call error:  "
                             + funCallNode.getSubtreeString() + ",  "
                             + tempVarOrFunc
@@ -345,6 +400,8 @@ public class TypeCheckingVisitor extends Visitor {
                             if (!dimNode.getType().equals("integer")){
                                 System.out.println("Error: dim number must be a integer");
                                 funCallNode.m_type = "TypeError";
+                                createFunCallEntry(funCallNode,entry);
+
                                 this.m_errors += "Fucntion call error:  "
                                         + funCallNode.getSubtreeString() + ",  "
                                         + tempVarOrFunc
@@ -356,9 +413,26 @@ public class TypeCheckingVisitor extends Visitor {
 
             }
         }
-        funCallNode.setType(entry.m_type);
-        funCallNode.m_symtabentry = entry;
 
+        funCallNode.setType(entry.m_type);
+        funCallNode.tag = ((FuncEntry)entry).tag;
+        funCallNode.funcCallEntry = entry;
+        createFunCallEntry(funCallNode,entry);
+    }
+
+    public void createFunCallEntry(FuncCallNode funCallNode, SymTabEntry returnEntry){
+	    //怎么同时保存function entry 和 return val
+        // 需要entry 传递param
+        String tempvarname = this.getNewTempVarName();
+        funCallNode.m_moonVarName = tempvarname;
+
+        if(returnEntry != null){
+            funCallNode.m_symtabentry = new VarEntry("retval", funCallNode.getType(), funCallNode.m_moonVarName, returnEntry.m_dims);
+        }else {
+            funCallNode.m_symtabentry = new VarEntry("retval", funCallNode.getType(), funCallNode.m_moonVarName, new Vector<Integer>());
+        }
+        funCallNode.m_symtab = currentScope;
+        funCallNode.m_symtab.addEntry(funCallNode.m_symtabentry);
     }
 
 
@@ -418,6 +492,7 @@ public class TypeCheckingVisitor extends Visitor {
         String tempVar = "";
         VarEntry varEntry = null;
 
+
         Node firstNode = varNode.getChildren().get(0);
 
         if(!(firstNode.getClass().getSimpleName().equals("IdNode") )){
@@ -434,6 +509,9 @@ public class TypeCheckingVisitor extends Visitor {
             String entryKind = currentScope.lookupName(tempVar).m_kind;
             if (entryKind != null && (entryKind.equals("var") || entryKind.equals("param"))) {
                 varEntry = (VarEntry) currentScope.lookupName(tempVar);
+                firstNode.m_symtabentry = varEntry;
+                firstNode.m_symtabentry.m_offset = varEntry.m_offset;
+
             } else {
                 // toDO
                 System.out.println("Can't find the  ( " + tempVar + " ) \n");
@@ -448,12 +526,17 @@ public class TypeCheckingVisitor extends Visitor {
 
         for(int i = 1; i<varNode.getChildren().size(); i++){
 
-            if (varNode.getChildren().get(i).getClass().getSimpleName().equals("IdNode") ){
+            Node child = varNode.getChildren().get(i);
+
+            if (child.getClass().getSimpleName().equals("IdNode") ){
                 // check if tempType is a class
                 String varType = "";
                 if(varEntry != null && varEntry.m_kind != null){
                     varType = varEntry.m_type;
                     varNode.getChildren().get(i-1).setType(varType);
+
+                    varNode.getChildren().get(i-1).m_symtabentry = varEntry;
+
                 } else {
                     System.out.println("Can't find the var (" + tempVar +" )");
                     varNode.m_type = "TypeError";
@@ -491,6 +574,9 @@ public class TypeCheckingVisitor extends Visitor {
                     }else {
                         varEntry = (VarEntry) tempClass.m_subtable.lookupName(tempVar);
                         varNode.getChildren().get(i).setType(varEntry.m_type);
+                        varNode.getChildren().get(i).m_symtabentry = varEntry;
+                        varNode.getChildren().get(i).m_symtabentry.m_offset = varEntry.m_offset;
+
                     }
                 }
             }else if (varNode.getChildren().get(i).getClass().getSimpleName().equals("IndiceRepNode") ){
@@ -529,19 +615,42 @@ public class TypeCheckingVisitor extends Visitor {
 
                     }
                 }
+                // 根据IndiceRepNode下标值计算offset，搭配数组维度和大小
+                // TODO update pre varNode offset
+                varNode.getChildren().get(i-1).m_symtabentry.m_offset = varEntry.m_offset;
+
             }
         }
         varNode.setType(varEntry.m_type);
-        varNode.m_symtabentry = varEntry;
-
+        varNode.m_data = varEntry.m_name;
+        // 要new一个entry 不能用同一个引用
+        varNode.m_symtabentry = new VarEntry(varEntry.m_kind,varEntry.m_type,varEntry.m_name,varEntry.m_dims);;
     }
 
 
 	public void visit(FuncCallNode p_node) {
         // IdNode AparamList IdNode IndiceRepNode
 //        System.out.println("visit FuncCallNode");
+        //convert to dot operator
+//        for (Node child : p_node.getChildren() ){
+////            System.out.println("child : "+ child.getClass().getSimpleName());
+//            child.accept(this);
+//        }
         setFuncCallType(p_node);
-	}; 
+	};
+
+	public void convertDotOperator(FuncCallNode p_node){
+	    Node newParentNode = new DotNode("");
+	    Node preNode = p_node.getChildren().get(0);
+	    for(int i = 1; i<p_node.getChildren().size(); i++){
+	        if (p_node.getChildren().get(i).getClass().getSimpleName().equals("IdNode")){
+	            DotNode dotNode = new DotNode("");
+                dotNode.addChild(preNode);
+                dotNode.addChild(p_node.getChildren().get(i));
+                preNode = p_node.getChildren().get(i);
+            }
+        }
+    }
 	
 	// Below are the visit methods for node types for which this visitor does not apply
 	// They still have to propagate acceptance of the visitor to their children.
@@ -609,6 +718,8 @@ public class TypeCheckingVisitor extends Visitor {
                     + p_node.getSubtreeString() + ", "
                     +"can't find the ("+p_node.m_data+") \n\n";
         }
+
+        p_node.m_moonVarName = p_node.m_data;
 	};
 
 	public void visit(Node p_node) {
@@ -624,6 +735,13 @@ public class TypeCheckingVisitor extends Visitor {
         for (Node child : p_node.getChildren())
             child.accept(this);
         //NumNode  已经设置好type
+
+        String tempvarname = this.getNewTempVarName();
+        p_node.m_moonVarName = tempvarname;
+        String vartype = p_node.getType(); // int float string
+        p_node.m_symtabentry = new VarEntry("litval", vartype, p_node.m_moonVarName, new Vector<Integer>());
+        p_node.m_symtab = currentScope;
+        p_node.m_symtab.addEntry(p_node.m_symtabentry);
 	};
 
 	public void visit(ProgramBlockNode p_node) {
@@ -685,6 +803,7 @@ public class TypeCheckingVisitor extends Visitor {
 		// this effectively achieves Depth-First AST Traversal
 		for (Node child : p_node.getChildren() )
 			child.accept(this);
+        p_node.m_symtab = currentScope;
 	};
 
 
@@ -694,6 +813,7 @@ public class TypeCheckingVisitor extends Visitor {
 		System.out.println("visit IfStatNode");
 		for (Node child : p_node.getChildren() )
 			child.accept(this);
+        p_node.m_symtab = currentScope;
 
 	};
 
@@ -727,6 +847,7 @@ public class TypeCheckingVisitor extends Visitor {
 		System.out.println("visit ReadStatNode");
 		for (Node child : p_node.getChildren() )
 			child.accept(this);
+        p_node.m_symtab = currentScope;
 	};
 
 	public void visit(RelOpNode p_node) {
@@ -741,9 +862,9 @@ public class TypeCheckingVisitor extends Visitor {
 
         String rightOperandType = p_node.getChildren().get(1).getType();
         if( leftOperandType.equals(rightOperandType) ){
-            p_node.setType(leftOperandType);
-            VarEntry entry = new VarEntry("var","boolean","",new Vector<Integer>());
-            p_node.m_symtabentry = entry;
+            p_node.setType("integer");
+//            VarEntry entry = new VarEntry("var","integer","",new Vector<Integer>());
+//            p_node.m_symtabentry = entry;
         } else{
             p_node.setType("typeerror");
             this.m_errors += "RelOpNode type error: "
@@ -755,16 +876,28 @@ public class TypeCheckingVisitor extends Visitor {
                     + "(" + p_node.getChildren().get(1).getType() + ")"
                     + "\n\n";
         }
-
+        String tempvarname = this.getNewTempVarName();
+        p_node.m_moonVarName = tempvarname;
+        p_node.m_symtabentry = new VarEntry("tempvar", p_node.getType(), p_node.m_moonVarName, new Vector<Integer>());
+        p_node.m_symtab = currentScope;
+        p_node.m_symtab.addEntry(p_node.m_symtabentry);
 
 	};
 
 	public void visit(SignNode p_node) {
 		// propagate accepting the same visitor to all the children
 		// this effectively achieves Depth-First AST Traversal
+        // 0-node, 0+node
         System.out.println("visit SignNode");
         p_node.setType(p_node.getChildren().get(0).m_type);
+
+        String tempvarname = this.getNewTempVarName();
+        p_node.m_moonVarName = tempvarname;
+        p_node.m_symtabentry = new VarEntry("tempvar", p_node.getType(), p_node.m_moonVarName, new Vector<Integer>());
+        p_node.m_symtab = currentScope;
+        p_node.m_symtab.addEntry(p_node.m_symtabentry);
 	};
+
 
 	public void visit(WhileStatNode p_node) {
 		// propagate accepting the same visitor to all the children
@@ -772,6 +905,7 @@ public class TypeCheckingVisitor extends Visitor {
 		System.out.println("visit WhileStatNode");
 		for (Node child : p_node.getChildren() )
 			child.accept(this);
+        p_node.m_symtab = currentScope;
 	};
 
 	public void visit(WriteStatNode p_node) {
@@ -780,10 +914,16 @@ public class TypeCheckingVisitor extends Visitor {
 		System.out.println("visit WriteStatNode");
 		for (Node child : p_node.getChildren() )
 			child.accept(this);
+        p_node.m_symtab = currentScope;
 	};
 
 	public void visit(VarNode p_node){
-	    setVarType(p_node);
+        for(Node child : p_node.getChildren()){
+            if(!child.getClass().getSimpleName().equals("IdNode")){
+                child.accept(this);
+            }
+        }
+        setVarType(p_node);
     }
 
     public void visit(AparamList p_node){
@@ -798,6 +938,10 @@ public class TypeCheckingVisitor extends Visitor {
     }
 
     public void visit(IndiceRepNode p_node){
+
+    }
+
+    public void visit(DotNode p_node){
 
     }
 }

@@ -44,6 +44,24 @@ public class SymTab {
 		return returnvalue;
 	}
 
+
+	public SymTabEntry lookupFuncTag(String p_tolookup) {
+		SymTabEntry returnvalue = new SymTabEntry();
+		boolean found = false;
+		for( SymTabEntry rec : m_symlist) {
+			if (rec.getClass().getSimpleName().equals("FuncEntry") && ((FuncEntry)rec).tag.equals(p_tolookup)) {
+				returnvalue = rec;
+				found = true;
+			}
+		}
+		if (!found) {
+			if (m_uppertable != null) {
+				returnvalue = m_uppertable.lookupName(p_tolookup);
+			}
+		}
+		return returnvalue;
+	}
+
 	public FuncEntry lookUpFunc(String funcName, String returnType, ArrayList<VarEntry> paramList){
 		FuncEntry funcEntry = null;
 		System.out.println("find free function : "+ funcName);
@@ -81,15 +99,15 @@ public class SymTab {
 		String prelinespacing = new String();
 		for (int i = 0; i < this.m_tablelevel; i++)
 			prelinespacing += "|    "; 
-		stringtoreturn += "\n" + prelinespacing + "=====================================================\n";
-		stringtoreturn += prelinespacing + String.format("%-25s" , "| table: " + m_name) + String.format("%-27s" , " scope offset: " + m_size) + "|\n";
-		stringtoreturn += prelinespacing        + "=====================================================\n";
+		stringtoreturn += "\n" + prelinespacing + "===========================================================\n";
+		stringtoreturn += prelinespacing + String.format("%-25s" , "| table: " + m_name) + String.format("%-27s" , " scope size: " + m_size) + "|\n";
+		stringtoreturn += prelinespacing        + "===========================================================\n";
 
 		for (int i = 0; i < m_symlist.size(); i++){
             m_symlist.get(i).toString();
 			stringtoreturn +=  prelinespacing + m_symlist.get(i).toString() + '\n'; 
 		}
-		stringtoreturn += prelinespacing        + "=====================================================";
+		stringtoreturn += prelinespacing        + "===========================================================";
 		return stringtoreturn;
 	}
 }

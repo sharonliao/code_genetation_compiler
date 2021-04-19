@@ -9,6 +9,7 @@ public class FuncEntry extends SymTabEntry {
 	public String classMethod = "";
 	public String visibility;
 	public boolean definedFlag = false;
+	public String tag = "";
 	
 	public FuncEntry(String p_type, String p_name, String p_classMethod, String p_visibility, SymTab p_table){
 		super(new String("func"), p_type, p_name, p_table);
@@ -39,8 +40,8 @@ public class FuncEntry extends SymTabEntry {
 //				m_subtable);
 
 		return 	String.format("%-12s" , "| " + m_kind) +
-				String.format("%-12s" , "| " + m_name) + 
-				String.format("%-28s"  , "| " + m_type) + 
+				String.format("%-15s" , "| " + m_name) +
+				String.format("%-30s"  , "| " + m_type) +
 				"|" + 
 				m_subtable;
 	}	

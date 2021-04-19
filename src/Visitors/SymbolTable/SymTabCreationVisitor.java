@@ -40,6 +40,11 @@ public class SymTabCreationVisitor extends Visitor {
     public ArrayList<FuncEntry> funcDeclareList = new ArrayList<>();
     public SymTab globalTable;
 
+	public int funcID = 0;
+	public int getFuncID(){
+		return funcID++;
+	}
+
 
 	public SymTabCreationVisitor() {
 	}
@@ -364,7 +369,6 @@ public class SymTabCreationVisitor extends Visitor {
 
 	public void visit(VarDeclNode p_node){
 		//TypeNode IdNode DimListNode(可能没有) VisibilityNode(可能没有)
-		//detect Multiply declared identifiers toDo
 
 		String vartype = "";
 		String varid = "";
@@ -402,8 +406,8 @@ public class SymTabCreationVisitor extends Visitor {
 		}
 
 		p_node.m_symtabentry = new VarEntry(kind, vartype, varid, dimlist, visibility);
-		//同一个table中不能存在相同名字的function var （toDo）
-		//检查是否有重复def
+		p_node.setType(vartype);
+
 		checkDuplicateName(p_node.m_symtab,p_node.m_symtabentry);
 
 		p_node.m_symtab.addEntry(p_node.m_symtabentry);
@@ -585,6 +589,9 @@ public class SymTabCreationVisitor extends Visitor {
 				}
 			}
 		}
+		p_node.setType(p_node.m_symtabentry.m_type);
+		p_node.m_data = p_node.m_symtabentry.m_name;
+		((FuncEntry)p_node.m_symtabentry).tag = p_node.m_symtabentry.m_name + getFuncID();
 	}
 
 
@@ -767,12 +774,6 @@ public class SymTabCreationVisitor extends Visitor {
 		// this effectively achieves Depth-First AST Traversal
 		for (Node child : p_node.getChildren() )
 			child.accept(this);
-		String tempvarname = this.getNewTempVarName();
-		p_node.m_moonVarName = tempvarname;
-		String vartype = p_node.getType();
-		p_node.m_symtabentry = new VarEntry("retval", vartype, p_node.m_moonVarName, new Vector<Integer>());
-
-		p_node.m_symtab.addEntry(p_node.m_symtabentry);
 	}; 
 	
 	public void visit(ReturnStatNode p_node) {
@@ -880,6 +881,10 @@ public class SymTabCreationVisitor extends Visitor {
     public void visit(IndiceRepNode p_node){
 
     }
+
+	public void visit(DotNode p_node){
+
+	}
 
 }
 

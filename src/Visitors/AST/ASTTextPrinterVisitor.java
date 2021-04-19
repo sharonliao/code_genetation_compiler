@@ -357,4 +357,8 @@ public class ASTTextPrinterVisitor  extends Visitor {
 	public void visit(IndiceRepNode p_node){
 
 	}
+
+	public void visit(DotNode p_node){
+
+	}
 }

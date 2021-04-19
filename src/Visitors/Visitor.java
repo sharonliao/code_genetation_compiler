@@ -49,4 +49,5 @@ import AST.*;
 	 public abstract void visit(VarNode p_node);
 	 public abstract void visit(AparamList p_node);
 	 public abstract void visit(IndiceRepNode p_node);
+	 public abstract void visit(DotNode p_node);
 }

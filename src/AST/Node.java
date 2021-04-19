@@ -17,6 +17,8 @@ public abstract class Node {
     public static int  m_nodelevel = 0;
     public int         m_nodeId    = 0;
     public static int  m_curNodeId = 0;
+    public String tag = "";
+    public SymTabEntry funcCallEntry = null;
     
     // The following data members have been added
     // during the implementation of the visitors
