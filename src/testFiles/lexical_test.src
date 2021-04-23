@@ -1,0 +1,114 @@
+// ====== Class declarations ====== //
+
+class POLYNOMIAL{
+    private integer b;
+    private integer d;
+    public func evaluate(integer x) : integer;
+};
+
+class LINEAR inherits POLYNOMIAL
+{
+	private integer a;
+	private integer b;
+	POLYNOMIAL polynomial_obj;                             // object data members
+
+	public func evaluate(integer x) : integer;
+};
+
+
+
+// ====== Function Definitions ====== //
+
+func POLYNOMIAL::evaluate(integer x) : integer
+{
+  var
+  {
+    integer bb;                                             // if x = 2，then return 3;
+  }
+  bb = 1;
+  return(bb+x);                                            // the function has a return
+}
+
+func LINEAR::evaluate(integer x) : integer
+{
+  var
+  {
+    integer bb;
+  }
+  bb = 1;
+}
+
+
+
+// ====== main ====== //
+main
+{
+  var
+  {
+    POLYNOMIAL polynomial1;                // Allocate memory for objects
+    POLYNOMIAL polynomial2;
+    LINEAR linear1;
+    integer a;                             // Allocate memory for objects
+    integer b;
+    integer c;
+    integer d;
+    integer result;
+    integer express_test;
+    integer array[10][10];                 // Allocate memory for arrays of basic types
+    integer counter;
+    integer read_test;
+    POLYNOMIAL array_object[10];           // Allocate memory for arrays of objects
+
+  }
+  polynomial1.b = 01;                       // For objects, access to members of basic types
+  polynomial2.d = 1;
+  polynomial2.b = 1;
+  write(polynomial1.b); // print 1
+
+  linear1.polynomial_obj.b = 2;            // For objects, access to members of object types
+  b = linear1.polynomial_obj.b;
+  write(b); // print 2
+
+  c = polynomial1.b + polynomial2.b;
+
+  polynomial1.evaluate(c) = b;
+  result = polynomial1.evaluate(c);        // Pass parameters as local values to the function’s code block.
+  write(result); //print 3                 // Upon execution of a return statement, pass the return value back to the calling function.
+
+  array[1][1]=4;                         // For arrays of basic types (integer), access to an array’s elements.
+  write(array[1][1]); //print 4
+
+  array_object[2].b = 5;                 // For arrays of objects, access to an array’s element’s data members
+  write(array_object[2].b); //print 5
+
+  express_test = 4*3+(4+100)/(1+1)-58;        // Computing the value of an entire complex expression
+  write(express_test); //print 6
+
+
+  read(read_test); //test input 3            // Input statement
+
+  if (result>2) // result = 3               // if statement, branch1
+    then {
+        write(read_test+4);  //print 7
+     } else {
+        write(2000);
+     };
+
+  if (result<2)                           // if statement, branch2
+     then {
+         write(999);
+      } else {
+         write(read_test+5);  //print 8
+      };
+
+  counter = 9;
+
+  while(counter<11){                        // while loop
+      write(counter);   // print 9 10
+      counter = counter + 1;
+  };
+ }
+
+
+
+
