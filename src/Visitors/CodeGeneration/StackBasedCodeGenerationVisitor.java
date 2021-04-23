@@ -127,20 +127,9 @@ public class StackBasedCodeGenerationVisitor extends Visitor {
     }
 
     public void visit(VarDeclNode p_node){
-        // propagate accepting the same visitor to all the children
-        // this effectively achieves Depth-First AST Traversal
 
-        // allocation
-        // recursive 如果是class 那么要进入class的symboltable吧class的local var也allocate
-        // 为什么stack based 不需要给 space for variable
         for (Node child : p_node.getChildren() )
             child.accept(this);
-
-        //get var entry, confirm type
-        //get type size
-        //allocate var on topofstack, and update topofstack
-        //if type is a class, continue allocate local var
-        //System.out.println("current table offset: " + currentScopeEntry.m_offset);
         System.out.println("var decl, name:  "+p_node.m_symtabentry.m_name + ",type: "+ p_node.m_symtabentry.m_type + ",size:"+ p_node.m_symtabentry.m_size);
 
     }
@@ -181,7 +170,7 @@ public class StackBasedCodeGenerationVisitor extends Visitor {
         //对varNode单独处理，直接返回offset，因为 addnode， idnode， funccallNode 都可以用moonvarname来search
         int leftOffSet = 0;
         int rightOffSet = 0;
-        System.out.println("p_node.getChildren().get(0).getClass().getSimpleName():"+ p_node.getChildren().get(0).getClass().getSimpleName());
+        //System.out.println("p_node.getChildren().get(0).getClass().getSimpleName():"+ p_node.getChildren().get(0).getClass().getSimpleName());
         if(p_node.getChildren().get(0).getClass().getSimpleName().equals("VarNode")){
             leftOffSet = p_node.getChildren().get(0).m_symtabentry.m_offset;
             System.out.println("leftOffSet : "+ leftOffSet);
@@ -408,21 +397,15 @@ public class StackBasedCodeGenerationVisitor extends Visitor {
 		//m_moonExecCode += m_mooncodeindent + "% processing: function call to "  + p_node.getChildren().get(0).m_moonVarName + " \n";
 		m_moonExecCode += m_mooncodeindent + "% processing: function call to "  + p_node.m_subtreeString + " \n";
 
-		//怎么pass param
-        //FuncCallNode 的参数在哪？
-        //toDo 假设只有一层call，param在最后一个child  AparamList
-        // toDo 改进的做法是改成dot operator
         //假设最后一个node是
         AparamList aparamList = (AparamList)p_node.getChildren().get(p_node.getChildren().size()-1);
-        // TODO aparamList 可以是idNode，VarNode functioncall.... , 怎么获取offset
-        // 如果是一个object 或者array 怎么copy
-        // 匹配 var -> param
 
+        // match var -> param
         for(int i = 0; i<paramInFunc.size(); i++){
             Node varNode = aparamList.getChildren().get(i);
             SymTabEntry param = paramInFunc.get(i);
             //only support integer param now
-            if(param.m_type.equals("integer") || param.m_type.equals("float")){
+            if(param.m_type.equals("integer") &&  param.m_dims.size()==0){
 				int offset = 0;
 				if (varNode.getClass().getSimpleName().equals("VarNode")){
 					offset = varNode.m_symtabentry.m_offset;
@@ -444,6 +427,7 @@ public class StackBasedCodeGenerationVisitor extends Visitor {
 
                 m_moonExecCode += m_mooncodeindent + "sw " + offsetofparam + "(r14)," + localregister1 + "\n";
             }
+
         }
 
 		// make the stack frame pointer point to the called function's stack frame
@@ -453,13 +437,92 @@ public class StackBasedCodeGenerationVisitor extends Visitor {
 		m_moonExecCode += m_mooncodeindent + "jl r15," + p_node.tag + "\n";
 		// upon jumping back, set the stack frame pointer back to the current function's stack frame  
 		m_moonExecCode += m_mooncodeindent + "subi r14,r14," + -p_node.m_symtab.m_size + "\n";
-		// toDo 如果没有return呢
+
 		// copy the return value in memory space to store it on the current stack frame
 		// to evaluate the expression in which it is 
 		m_moonExecCode += m_mooncodeindent + "lw " + localregister1 + "," + -p_node.m_symtab.m_size + "(r14)\n";
 		m_moonExecCode += m_mooncodeindent + "sw " + p_node.m_symtab.lookupName(p_node.m_moonVarName).m_offset + "(r14)," + localregister1 + "\n";
 		this.m_registerPool.push(localregister1);
 	};
+
+	public void passParams(Node p_node){
+		ArrayList<SymTabEntry> paramInFunc = getParamLIstFromTable(p_node.funcCallEntry);
+		AparamList aparamList = (AparamList)p_node.getChildren().get(p_node.getChildren().size()-1);
+
+		for(int i = 0; i<paramInFunc.size(); i++){
+			Node varNode = aparamList.getChildren().get(i);
+			SymTabEntry param = paramInFunc.get(i);
+			//only support integer param now
+			if(param.m_type.equals("integer") &&  param.m_dims.size()==0){
+				String localregister1 = this.m_registerPool.pop();
+				int offset = 0;
+				if (varNode.getClass().getSimpleName().equals("VarNode")){
+					offset = varNode.m_symtabentry.m_offset;
+				}else {
+					offset = p_node.m_symtab.lookupName(varNode.m_moonVarName).m_offset;
+				}
+
+				m_moonExecCode += m_mooncodeindent + "lw " + localregister1 + "," + offset + "(r14)\n";
+				//p_node.m_symtab.m_size, size of the current scope
+				// minus p_node.m_symtab.m_size, to create a new start addr
+				int offsetofparam = -p_node.m_symtab.m_size + param.m_offset;
+
+				System.out.println("p_node.m_symtab.lookupName(varNode.m_moonVarName).m_offset:"+p_node.m_symtab.lookupName(varNode.m_moonVarName).m_offset);
+				System.out.println("param offset:"+param.m_offset);
+				System.out.println("offsetofparam:"+offsetofparam);
+				System.out.println("p_node.m_symtab.m_size:"+p_node.m_symtab.m_size);
+				System.out.println("p_node.m_symtabentry.m_size:"+p_node.m_symtabentry.m_size);
+				System.out.println("p_node.funcCallEntry.m_size:"+p_node.funcCallEntry.m_size);
+
+				m_moonExecCode += m_mooncodeindent + "sw " + offsetofparam + "(r14)," + localregister1 + "\n";
+				this.m_registerPool.push(localregister1);
+			}else if(param.m_type.equals("integer") &&  param.m_dims.size()>0){
+				//array
+				int totalSize = 1;
+				for (int dim : param.m_dims){
+					totalSize *= dim;
+				}
+
+				int offset = 0;
+				if (varNode.getClass().getSimpleName().equals("VarNode")){
+					offset = varNode.m_symtabentry.m_offset;
+				}else {
+					offset = p_node.m_symtab.lookupName(varNode.m_moonVarName).m_offset;
+				}
+
+				for(int j =0; j <totalSize; j ++){
+					int subOffset = offset + 4*j;
+					int offsetofparam = -p_node.m_symtab.m_size + param.m_offset + 4*j;
+					String localregister1 = this.m_registerPool.pop();
+					m_moonExecCode += m_mooncodeindent + "lw " + localregister1 + "," + subOffset + "(r14)\n";
+					m_moonExecCode += m_mooncodeindent + "sw " + offsetofparam + "(r14)," + localregister1 + "\n";
+					this.m_registerPool.push(localregister1);
+				}
+			}else if(!param.m_type.equals("integer")  &&  param.m_dims.size() == 0){
+				//object
+				//但是object里还有object就不可以了
+				SymTabEntry classEntry = globalTable.lookupName(param.m_type);
+
+				int offset = 0;
+				if (varNode.getClass().getSimpleName().equals("VarNode")){
+					offset = varNode.m_symtabentry.m_offset;
+				}else {
+					offset = p_node.m_symtab.lookupName(varNode.m_moonVarName).m_offset;
+				}
+
+				for(SymTabEntry member: classEntry.m_subtable.m_symlist){
+					if(member.getClass().getSimpleName().equals("VarEntry")){
+						int subOffset = offset + classEntry.m_subtable.m_size + member.m_offset;
+						int offsetofparam = -p_node.m_symtab.m_size + param.m_offset + param.m_size + member.m_offset;
+						String localregister1 = this.m_registerPool.pop();
+						m_moonExecCode += m_mooncodeindent + "lw " + localregister1 + "," + subOffset + "(r14)\n";
+						m_moonExecCode += m_mooncodeindent + "sw " + offsetofparam + "(r14)," + localregister1 + "\n";
+						this.m_registerPool.push(localregister1);
+					}
+				}
+			}
+		}
+	}
 
 	public ArrayList<SymTabEntry> getParamLIstFromTable(SymTabEntry funcEntry){
 	    System.out.println("func name:"+ funcEntry.m_name);
@@ -648,10 +711,10 @@ public class StackBasedCodeGenerationVisitor extends Visitor {
 		// generate code
 		m_moonExecCode += m_mooncodeindent + "% processing RelOp: " + p_node.m_moonVarName + " := " + p_node.getSubtreeString()+ "\n";
 		// load the values of the operands into registers
-		//对varNode单独处理，直接返回offset，因为 addnode， idnode， funccallNode 都可以用moonvarname来search
+
 		int leftOffSet = 0;
 		int rightOffSet = 0;
-		System.out.println("p_node.getChildren().get(0).getClass().getSimpleName():"+ p_node.getChildren().get(0).getClass().getSimpleName());
+		//System.out.println("p_node.getChildren().get(0).getClass().getSimpleName():"+ p_node.getChildren().get(0).getClass().getSimpleName());
 		if(p_node.getChildren().get(0).getClass().getSimpleName().equals("VarNode")){
 			leftOffSet = p_node.getChildren().get(0).m_symtabentry.m_offset;
 			System.out.println("leftOffSet : "+ leftOffSet);

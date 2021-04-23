@@ -1,0 +1,48 @@
+
+
+Error: , In ( evaluate ) function define, can't find ( evaluate ) function in  ( QUADRATIC ) class. 
+Error: Inherit chain has the loop at :CircularTest      loop path: CircularTest -> AA -> BB -> CircularTest
+
+Error: Function ( evaluate ) hasn't been defined.
+       func evaluate ( float x, ) : float
+
+var error:  c, can't find the (c) 
+
+AddOpNode type error:  result*x+c,  *(float) and c(TypeError)
+AssignStatNode type error: result=result*x+c;,  result(float) and +(typeerror)
+
+Dimension error: arr[floatCounter],   dim number must be a integer
+
+AssignStatNode type error: arr[floatCounter]=0;,  (TypeError) and 0(integer)
+
+Dimension Error  :arr[0][0],  arr has a wrong dimension
+
+AssignStatNode type error: arr[0][0]=1;,  (TypeError) and 1(integer)
+
+Function call error:  linear1.build(2,3.5),  Can't find the class aaaa
+
+AssignStatNode type error: linear1=linear1.build(2,3.5);,  linear1(aaaa) and (TypeError)
+
+Function call error:  test.testArr(arr,0),  testArr( integer,integer, )
+
+Var error:  counter.ab,  Can't find the  class ( counter ) , use of undeclared class
+
+AssignStatNode type error: counter.ab=0;,  (TypeError) and 0(integer)
+
+Var error:  linear1.ab,  Can't find the  class ( linear1 ) , use of undeclared class
+
+AssignStatNode type error: linear1.ab=0;,  (TypeError) and 0(integer)
+
+var error:  a, can't find the (a) 
+
+AddOpNode type error:  1+0.1,  1(integer) and 0.1(float)
+AddOpNode type error:  1+0.1+2,  +(typeerror) and 2(integer)
+AssignStatNode type error: a=1+0.1+2;,  a(TypeError) and +(typeerror)
+
+function call error:  evaluate(counter),  Can't find the  evaluate
+
+Function call error:  linear1.evaluate(counter),  Can't find the class aaaa
+
+Function call error:  linear1.evaluate(floatCounter),  Can't find the class aaaa
+
+

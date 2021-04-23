@@ -10,9 +10,10 @@ public class LexicalAnalyzer {
     String filename;
     String outFile;
     String errorFile;
+    String errorString = "";
     Scanner reader; // the file reader, used to read the testing file line by line
     int rowNo; // token position
-    char[] charArray; // cover current code line to a char array
+    char[] charArray; // convert current code line to a char array
     int index; //index of charArray
 
 
@@ -123,6 +124,7 @@ public class LexicalAnalyzer {
                 errorStr += "Lexical error: Invalid "+errorType+": \""+token.lexeme+"\" : line "+token.position+".\n";
             }
         }
+        errorString += errorStr;
         outputWrite.write(outStr);
         errorWrite.write(errorStr);
         outputWrite.close();

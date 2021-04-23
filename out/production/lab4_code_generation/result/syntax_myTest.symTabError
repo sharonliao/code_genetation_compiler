@@ -1,0 +1,6 @@
+Error: , In ( evaluate ) function define, can't find ( evaluate ) function in  ( POLYNOMIAL ) class. 
+Error: , In ( test1 ) function define, can't find ( test1 ) function in  ( POLYNOMIAL ) class. 
+Inherit Error: couldn't find the inherit class :POLYNOMIAL_1
+Error: Function ( evaluate ) hasn't been defined.
+       func evaluate ( float x,int b, ) : float
+

@@ -33,10 +33,12 @@ public class ComputeMemSizeVisitor extends Visitor {
 
 		if(p_node.getType() == null ){
 			System.out.println("node has no type:" + p_node.getClass().getSimpleName());
-		}
-        if(p_node.m_symtabentry == null ){
+			return 0;
+		}else if(p_node.m_symtabentry == null ){
             System.out.println("node has no m_symtabentry:" + p_node.getClass().getSimpleName());
+            return 0;
         }
+
         System.out.println("var declare type:" + p_node.m_symtabentry.m_type);
 
 		int size = 0;
@@ -105,8 +107,9 @@ public class ComputeMemSizeVisitor extends Visitor {
         //global offset = 0
         globalTable = p_node.m_symtab;
         currentScope =  p_node.m_symtab;
-		for (Node child : p_node.getChildren() )
+		for (Node child : p_node.getChildren())
 			child.accept(this);
+
 		if (!this.m_outputfilename.isEmpty()) {
 			File file = new File(this.m_outputfilename);
 			try (PrintWriter out = new PrintWriter(file)){ 
@@ -166,11 +169,6 @@ public class ComputeMemSizeVisitor extends Visitor {
 		// this should be node on all nodes that represent
 		// a scope and contain their own table
 
-        //先进入子节点，统计好子节点的offset
-        //递归返回，计算当前节点offset
-		//m_symtab.m_size 默认为0
-		//IdNode(classname),InheritNode,VarDeclNode（可能有多个),FuncDeclareNode(可能有多个)
-		//需要确定size的node有 varDeclNode，FuncDeclareNode
         int scopeSize = 0;
 		for (SymTabEntry entry : p_node.m_symtabentry.m_subtable.m_symlist){
 		    if(entry.getClass().getSimpleName().equals("FuncEntry") || entry.getClass().getSimpleName().equals("InheritEntry")){
@@ -179,7 +177,7 @@ public class ComputeMemSizeVisitor extends Visitor {
 			System.out.println("child entry"+ entry.m_size);
 			scopeSize += entry.m_size;
 
-			// m_symtab.m_size 默认为0，一个local table的起点，
+			// m_symtab.m_size default 0，
 			entry.m_offset = p_node.m_symtab.m_size - entry.m_size;
 			p_node.m_symtab.m_size -= entry.m_size;
 		}
@@ -194,7 +192,6 @@ public class ComputeMemSizeVisitor extends Visitor {
         //var 和 param 已经确定了type 可以直接确定m_size
         //StatBlockNode中temp var 也可以直接确认size
         currentScope =  p_node.m_symtab;
-
 
         for (Node child : p_node.getChildren() )
             child.accept(this);
@@ -231,7 +228,14 @@ public class ComputeMemSizeVisitor extends Visitor {
 		for (Node child : p_node.getChildren() )
 			child.accept(this);
 		// determine the size for basic variables
-		p_node.m_symtabentry.m_size = this.sizeOfEntry(p_node);
+        if(p_node.m_symtabentry == null){
+            p_node.m_symtabentry = new SymTabEntry();
+            p_node.m_symtabentry.m_type = "typeerror";
+            p_node.m_symtabentry.m_size = 0;
+        }else {
+            p_node.m_symtabentry.m_size = this.sizeOfEntry(p_node);
+        }
+
 	}
 
 	public void visit(MultOpNode p_node) {
@@ -445,9 +449,6 @@ public class ComputeMemSizeVisitor extends Visitor {
     }
 
     public void setVarOffset(VarNode varNode){
-        // varNode 会有两种类型child： IdNode IdNode IndiceRepNode
-        // 用tempVar 来保存每一个操作的结果
-        // varNode 可以有一个tempvar list
 
         String tempVar = "";
         VarEntry varEntry = null;

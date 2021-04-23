@@ -4,10 +4,11 @@
 ===========================================================
 | class     | POLYNOMIAL                            |
 |    ===========================================================
-|    | table: POLYNOMIAL       scope size: 8             |
+|    | table: POLYNOMIAL       scope size: 48            |
 |    ===========================================================
 |    | var       | b            | integer      | 4     | -4    |
 |    | var       | d            | integer      | 4     | -8    |
+|    | var       | array        | integer[10]  | 40    | -48   |
 |    | func      | evaluate     | integer                     |
 |    |    ===========================================================
 |    |    | table: evaluate         scope size: 24            |
@@ -20,12 +21,12 @@
 |    ===========================================================
 | class     | LINEAR                                |
 |    ===========================================================
-|    | table: LINEAR           scope size: 16            |
+|    | table: LINEAR           scope size: 56            |
 |    ===========================================================
 |    | inherit   | POLYNOMIAL   | class        | Linked
 |    | var       | a            | integer      | 4     | -4    |
 |    | var       | b            | integer      | 4     | -8    |
-|    | var       | polynomial_obj| POLYNOMIAL   | 8     | -16   |
+|    | var       | polynomial_obj| POLYNOMIAL   | 48    | -56   |
 |    | func      | evaluate     | integer                     |
 |    |    ===========================================================
 |    |    | table: evaluate         scope size: 20            |
@@ -35,64 +36,81 @@
 |    |    | litval    | t3           | integer      | 4     | -20   |
 |    |    ===========================================================
 |    ===========================================================
+| func      | freefunc     | void                        |
+|    ===========================================================
+|    | table: freefunc         scope size: 20            |
+|    ===========================================================
+|    | param     | x            | integer      | 4     | -8    |
+|    | var       | input        | integer      | 4     | -12   |
+|    | litval    | t4           | integer      | 4     | -16   |
+|    | tempvar   | t5           | integer      | 4     | -20   |
+|    ===========================================================
 | func      | program      | void                        |
 |    ===========================================================
-|    | table: program          scope size: 712           |
+|    | table: program          scope size: 1260          |
 |    ===========================================================
-|    | var       | polynomial1  | POLYNOMIAL   | 8     | -8    |
-|    | var       | polynomial2  | POLYNOMIAL   | 8     | -16   |
-|    | var       | linear1      | LINEAR       | 16    | -32   |
-|    | var       | a            | integer      | 4     | -36   |
-|    | var       | b            | integer      | 4     | -40   |
-|    | var       | c            | integer      | 4     | -44   |
-|    | var       | d            | integer      | 4     | -48   |
-|    | var       | result       | integer      | 4     | -52   |
-|    | var       | express_test | integer      | 4     | -56   |
-|    | var       | array        | integer[10][10]| 400   | -456  |
-|    | var       | counter      | integer      | 4     | -460  |
-|    | var       | read_test    | integer      | 4     | -464  |
-|    | var       | array_object | POLYNOMIAL[10]| 80    | -544  |
-|    | litval    | t4           | integer      | 4     | -548  |
-|    | litval    | t5           | integer      | 4     | -552  |
-|    | litval    | t6           | integer      | 4     | -556  |
-|    | litval    | t7           | integer      | 4     | -560  |
-|    | tempvar   | t8           | integer      | 4     | -564  |
-|    | retval    | t9           | integer      | 4     | -568  |
-|    | litval    | t10          | integer      | 4     | -572  |
-|    | litval    | t11          | integer      | 4     | -576  |
-|    | litval    | t12          | integer      | 4     | -580  |
-|    | litval    | t13          | integer      | 4     | -584  |
-|    | litval    | t14          | integer      | 4     | -588  |
-|    | litval    | t15          | integer      | 4     | -592  |
-|    | litval    | t16          | integer      | 4     | -596  |
-|    | litval    | t17          | integer      | 4     | -600  |
-|    | litval    | t18          | integer      | 4     | -604  |
-|    | litval    | t19          | integer      | 4     | -608  |
-|    | tempvar   | t20          | integer      | 4     | -612  |
-|    | litval    | t21          | integer      | 4     | -616  |
-|    | litval    | t22          | integer      | 4     | -620  |
-|    | tempvar   | t23          | integer      | 4     | -624  |
-|    | litval    | t24          | integer      | 4     | -628  |
-|    | litval    | t25          | integer      | 4     | -632  |
-|    | tempvar   | t26          | integer      | 4     | -636  |
-|    | tempvar   | t27          | integer      | 4     | -640  |
-|    | tempvar   | t28          | integer      | 4     | -644  |
-|    | litval    | t29          | integer      | 4     | -648  |
-|    | tempvar   | t30          | integer      | 4     | -652  |
-|    | litval    | t31          | integer      | 4     | -656  |
-|    | tempvar   | t32          | integer      | 4     | -660  |
-|    | litval    | t33          | integer      | 4     | -664  |
-|    | tempvar   | t34          | integer      | 4     | -668  |
-|    | litval    | t35          | integer      | 4     | -672  |
-|    | litval    | t36          | integer      | 4     | -676  |
-|    | tempvar   | t37          | integer      | 4     | -680  |
-|    | litval    | t38          | integer      | 4     | -684  |
-|    | litval    | t39          | integer      | 4     | -688  |
-|    | tempvar   | t40          | integer      | 4     | -692  |
-|    | litval    | t41          | integer      | 4     | -696  |
-|    | litval    | t42          | integer      | 4     | -700  |
-|    | tempvar   | t43          | integer      | 4     | -704  |
-|    | litval    | t44          | integer      | 4     | -708  |
-|    | tempvar   | t45          | integer      | 4     | -712  |
+|    | var       | polynomial1  | POLYNOMIAL   | 48    | -48   |
+|    | var       | polynomial2  | POLYNOMIAL   | 48    | -96   |
+|    | var       | linear1      | LINEAR       | 56    | -152  |
+|    | var       | a            | integer      | 4     | -156  |
+|    | var       | b            | integer      | 4     | -160  |
+|    | var       | c            | integer      | 4     | -164  |
+|    | var       | d            | integer      | 4     | -168  |
+|    | var       | result       | integer      | 4     | -172  |
+|    | var       | express_test | integer      | 4     | -176  |
+|    | var       | array        | integer[10][10]| 400   | -576  |
+|    | var       | counter      | integer      | 4     | -580  |
+|    | var       | read_test    | integer      | 4     | -584  |
+|    | var       | array_object | POLYNOMIAL[10]| 480   | -1064 |
+|    | litval    | t6           | integer      | 4     | -1068 |
+|    | litval    | t7           | integer      | 4     | -1072 |
+|    | litval    | t8           | integer      | 4     | -1076 |
+|    | litval    | t9           | integer      | 4     | -1080 |
+|    | retval    | t10          | integer      | 4     | -1084 |
+|    | litval    | t11          | integer      | 4     | -1088 |
+|    | litval    | t12          | integer      | 4     | -1092 |
+|    | litval    | t13          | integer      | 4     | -1096 |
+|    | litval    | t14          | integer      | 4     | -1100 |
+|    | tempvar   | t15          | integer      | 4     | -1104 |
+|    | retval    | t16          | integer      | 4     | -1108 |
+|    | litval    | t17          | integer      | 4     | -1112 |
+|    | litval    | t18          | integer      | 4     | -1116 |
+|    | litval    | t19          | integer      | 4     | -1120 |
+|    | litval    | t20          | integer      | 4     | -1124 |
+|    | litval    | t21          | integer      | 4     | -1128 |
+|    | litval    | t22          | integer      | 4     | -1132 |
+|    | tempvar   | t23          | integer      | 4     | -1136 |
+|    | litval    | t24          | integer      | 4     | -1140 |
+|    | litval    | t25          | integer      | 4     | -1144 |
+|    | litval    | t26          | integer      | 4     | -1148 |
+|    | litval    | t27          | integer      | 4     | -1152 |
+|    | litval    | t28          | integer      | 4     | -1156 |
+|    | tempvar   | t29          | integer      | 4     | -1160 |
+|    | litval    | t30          | integer      | 4     | -1164 |
+|    | litval    | t31          | integer      | 4     | -1168 |
+|    | tempvar   | t32          | integer      | 4     | -1172 |
+|    | litval    | t33          | integer      | 4     | -1176 |
+|    | litval    | t34          | integer      | 4     | -1180 |
+|    | tempvar   | t35          | integer      | 4     | -1184 |
+|    | tempvar   | t36          | integer      | 4     | -1188 |
+|    | tempvar   | t37          | integer      | 4     | -1192 |
+|    | litval    | t38          | integer      | 4     | -1196 |
+|    | tempvar   | t39          | integer      | 4     | -1200 |
+|    | litval    | t40          | integer      | 4     | -1204 |
+|    | tempvar   | t41          | integer      | 4     | -1208 |
+|    | litval    | t42          | integer      | 4     | -1212 |
+|    | tempvar   | t43          | integer      | 4     | -1216 |
+|    | litval    | t44          | integer      | 4     | -1220 |
+|    | litval    | t45          | integer      | 4     | -1224 |
+|    | tempvar   | t46          | integer      | 4     | -1228 |
+|    | litval    | t47          | integer      | 4     | -1232 |
+|    | litval    | t48          | integer      | 4     | -1236 |
+|    | tempvar   | t49          | integer      | 4     | -1240 |
+|    | litval    | t50          | integer      | 4     | -1244 |
+|    | litval    | t51          | integer      | 4     | -1248 |
+|    | tempvar   | t52          | integer      | 4     | -1252 |
+|    | litval    | t53          | integer      | 4     | -1256 |
+|    | tempvar   | t54          | integer      | 4     | -1260 |
+|    | retval    | t55          | void         | 0     | -1260 |
 |    ===========================================================
 ===========================================================

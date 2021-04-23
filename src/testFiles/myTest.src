@@ -3,6 +3,7 @@
 class POLYNOMIAL{
     private integer b;
     private integer d;
+    integer array[10];
     public func evaluate(integer x) : integer;
 };
 
@@ -29,6 +30,7 @@ func POLYNOMIAL::evaluate(integer x) : integer
   return(bb+x);                                            // the function has a return
 }
 
+
 func LINEAR::evaluate(integer x) : integer
 {
   var
@@ -37,6 +39,16 @@ func LINEAR::evaluate(integer x) : integer
   }
   bb = 1;
 }
+
+func freefunc(integer x) : void{
+      var
+      {
+        integer input;
+      }
+      input = 1;
+      write(input+x);
+}
+
 
 
 
@@ -63,19 +75,27 @@ main
   polynomial1.b = 1;                       // For objects, access to members of basic types
   polynomial2.d = 1;
   polynomial2.b = 1;
+
+  write(linear1.polynomial_obj.evaluate(1));
+
+  polynomial1.array[1] = 9;
+  write(polynomial1.array[1]);
+
+
   write(polynomial1.b); // print 1
 
   linear1.polynomial_obj.b = 2;            // For objects, access to members of object types
   b = linear1.polynomial_obj.b;
   write(b); // print 2
 
-  c = polynomial1.b + polynomial2.b;
+  c = polynomial1.b + polynomial2.b;       //  c = 1+1 ,expression involving an object factor referring to object members.
 
   result = polynomial1.evaluate(c);        // Pass parameters as local values to the function’s code block.
   write(result); //print 3                 // Upon execution of a return statement, pass the return value back to the calling function.
 
   array[1][1]=4;                         // For arrays of basic types (integer), access to an array’s elements.
-  write(array[1][1]); //print 4
+
+  write(array[1][1]+1); //print 5
 
   array_object[2].b = 5;                 // For arrays of objects, access to an array’s element’s data members
   write(array_object[2].b); //print 5
@@ -94,11 +114,11 @@ main
      };
 
   if (result<2)                           // if statement, branch2
-     then {
+     then
          write(999);
-      } else {
+     else
          write(read_test+5);  //print 8
-      };
+     ;
 
   counter = 9;
 
@@ -106,6 +126,8 @@ main
       write(counter);   // print 9 10
       counter = counter + 1;
   };
+
+  freefunc(counter); // print 12  (count:11 + 1 = 12), free fucntion call
  }
 
 

@@ -5,12 +5,19 @@ evaluate(integer x;)integer {
 evaluate(integer x;)integer {
   bb=1;
 }
+freefunc(integer x;)void {
+  input=1;
+  
+}
 program{
   
   {
   polynomial1.b=1;
   polynomial2.d=1;
   polynomial2.b=1;
+  
+  polynomial1.array[1]=9;
+  
   
   linear1.polynomial_obj.b=2;
   b=linear1.polynomial_obj.b;
@@ -29,6 +36,7 @@ program{
   
   counter=9;
   
+  freefunc(counter)
 }
 
 }

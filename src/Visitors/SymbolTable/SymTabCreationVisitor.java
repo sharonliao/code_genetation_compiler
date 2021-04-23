@@ -107,17 +107,22 @@ public class SymTabCreationVisitor extends Visitor {
         }
     }
 
+    public void checkInheritShadow(SymTab subTable, SymTabEntry curEntry ){
+		//检查是否有继承
+		//检查是否和继承类有重名的
+		for(SymTabEntry entry : subTable.m_symlist){
+			if(entry.getClass().getSimpleName().equals("InheritEntry")){
+				//进去inherit link
+				//但是有可能这时候的class还没link上
+			}
+		}
+	}
+
 	public boolean checkDuplicateName(SymTab subTable, SymTabEntry curEntry ){
-//		1. class def 中的 function name，var name是否用重复
-//		2. zai subtable中检查，这是同一个scope
-//		3. var 和 param 算不算是同类型
-//		4. 还要排除overload的情况，检查param list
+//		1. check subtable
+//		2. if entry is FuncEntry, then check out param list
 		String name = curEntry.m_name;
 		String type = curEntry.getClass().getSimpleName();
-
-//		System.out.println("checkDuplicateName: "+ type);
-//		System.out.println("subTable.m_symlist size: " + subTable.m_symlist.size());
-
 
 		boolean result = true;
 		if(type.compareTo("FuncEntry")==0){
@@ -126,17 +131,15 @@ public class SymTabCreationVisitor extends Visitor {
                 SymTabEntry entry = subTable.m_symlist.get(i);
                 if(entry.m_name.compareTo(name) == 0 && entry.getClass().getSimpleName().compareTo(type) == 0){
 //				    System.out.println("checkDuplicateName Function name duplicate");
-//				    那么还要考虑overloading的情况, 检查 param list
-//				    toDo overloading
                     ArrayList<String> curFuncParams = getParamList(curEntry);
                     ArrayList<String> funcParams = getParamList(entry);
-                    System.out.println("\ncurFuncParams: "+covertParamlsitToStr(curFuncParams));
-                    System.out.println("funcParams: "+covertParamlsitToStr(funcParams)+"\n");
-//				    包括param type的顺序不一样也是overloading
+//                    System.out.println("\ncurFuncParams: "+covertParamlsitToStr(curFuncParams));
+//                    System.out.println("funcParams: "+covertParamlsitToStr(funcParams)+"\n");
+
                     if(!curFuncParams.equals(funcParams)){
 //					    toDo warning output.
                         this.m_errors += "Warning: "
-                                + "Overloading:  function ( "+ curEntry.m_name + " ) overloading function in (  "+ subTable.m_name+" ) class\n";
+                                + "Overloading:  function ( "+ curEntry.m_name + " ) overloading function in (  "+ subTable.m_name+" ) class\n\n";
 
                     }else {
                         System.out.println("Error: In ( "+ subTable.m_name + " ) class already has ( "+name+" ) function.");
@@ -151,13 +154,10 @@ public class SymTabCreationVisitor extends Visitor {
             }
         } else{
             for (SymTabEntry entry : subTable.m_symlist){
-                if( entry.m_name.compareTo(name) == 0 && entry.getClass().getSimpleName().compareTo(type) == 0){
+                if( entry.m_name.equals(name)&& entry.getClass().getSimpleName().equals(type)){
 //				in the same scope, var and param can not have the same name.
-
                     this.m_errors += "Error: In ( "+ subTable.m_name + " ) already has " + type+ " ( "+name+" )\n";
-
                     result = false;
-//				toDo error output.
                 }
             }
         }
@@ -250,8 +250,6 @@ public class SymTabCreationVisitor extends Visitor {
             catch(Exception e){
                 e.printStackTrace();}
         }
-
-
 	};
 
 	public void visit(StatBlockNode p_node){
@@ -277,7 +275,7 @@ public class SymTabCreationVisitor extends Visitor {
 		int p_level = p_node.m_symtab.getLevel()+1;
         SymTab localtable = new SymTab(p_level,"program", p_node.m_symtab);
         p_node.m_symtabentry = new FuncEntry("void","program","", localtable);
-		//检查是否有重复def
+
 		checkDuplicateName(p_node.m_symtab,p_node.m_symtabentry);
 
 		//String p_type, String p_name, String p_classMethod, SymTab p_table
@@ -293,38 +291,30 @@ public class SymTabCreationVisitor extends Visitor {
 
 
 	public void visit(ClassNode p_node){
-		//IdNode(classname),InheritNode,VarDeclNode（可能有多个),FuncDeclareNode(可能有多个)
-		//InheritListNode 要怎么处理 也应该create一个record，link到相应的class
+		//IdNode(classname),InheritNode,VarDeclNode(s),FuncDeclareNode(s)
+		//InheritListNode create a inheritNode entry，link to corresponding class
 		//<classDecl> ::= 'class' 'id' <Inherit> '{' <ClassDeclBodyList> '}' ';'
 		//ClassDeclBodyList : FuncDeclareNode,VarDeclNode
-		//每个class都有一个local table
+		//create a class entry
 
-		//p_node 拿到 prog的m_symtab
-		//所以这个p_node的m_symtabentry 是 add 到 p_node.m_symtab
+
 		classList.add(p_node);
 		String classname = p_node.getChildren().get(0).getData();
 		int p_level = p_node.m_symtab.getLevel()+1;
 		SymTab localtable = new SymTab(p_level,classname, p_node.m_symtab);
-		//class需要create一个entry
+		//create a class entry
 		p_node.m_symtabentry = new ClassEntry(classname, localtable);
-		//检查是否有重复def
+
 		checkDuplicateName(p_node.m_symtab,p_node.m_symtabentry);
 
-
-		//加入prog的m_symtab中
 		p_node.m_symtab.addEntry(p_node.m_symtabentry);
-		// 这一步？ 太奇怪了吧
-		// 切换table，class entry加入pro symtable  之后，可以吧current m_symtab 切换成当前node的table
 		p_node.m_symtab = localtable;
 
-		// propagate accepting the same visitor to all the children
-		// this effectively achieves Depth-First AST Traversal
 		// check if there are classes inherit this class, if yes, update inherit node localtable like
 		updateInherit(p_node);
 
 
 		for (Node child : p_node.getChildren() ) {
-			//应该要skip IdNode？
 //			System.out.println(child.getClass().getSimpleName());
 			child.m_symtab = p_node.m_symtab;
 			child.accept(this);
@@ -334,41 +324,32 @@ public class SymTabCreationVisitor extends Visitor {
 	public void visit(InheritNode p_node){
 //		System.out.println("enter InheritNode");
 
-		//IdNode(classname),InheritNode,VarDeclNode（可能有多个),FuncDeclareNode(可能有多个)
-		//InheritListNode 要怎么处理 也应该create一个record，link到相应的class
+		//IdNode(classname),InheritNode,VarDeclNode(s),FuncDeclareNode(s)
 		//<classDecl> ::= 'class' 'id' <Inherit> '{' <ClassDeclBodyList> '}' ';'
 		//ClassDeclBodyList : FuncDeclareNode,VarDeclNode
-		//每个class都有一个local table
+		//each class has a local table
 
 		String classname = p_node.getData();
-		//可能会报错找不到 找不到相应的class
 		SymTab localtable = null;
 		if(p_node.m_symtab.lookupName(classname) != null){
 			localtable = p_node.m_symtab.lookupName(classname).m_subtable;
-
-		}else {
-			//可以加上报错信息
-			// two pass 解决顺序问题
-			//还需要检测inherit chain是否有环（toDo）
 		}
 
 		p_node.m_symtabentry = new InheritEntry(classname, localtable);
-		//检查是否有重复def
+		//check if there are duplicate names
 		checkDuplicateName(p_node.m_symtab,p_node.m_symtabentry);
 
 		p_node.m_symtab.addEntry(p_node.m_symtabentry);
 
-
-		//如果localtable == null 需要更新class table
 		inheritList.add(p_node);
 	};
 
 
 	//VarDeclNode
-	//可能是vardecl 也可能是 fparam
 
 	public void visit(VarDeclNode p_node){
 		//TypeNode IdNode DimListNode(可能没有) VisibilityNode(可能没有)
+		// implement ihnerit shadow var
 
 		String vartype = "";
 		String varid = "";
@@ -388,7 +369,7 @@ public class SymTabCreationVisitor extends Visitor {
 					// parameter dimension
 					Integer dimval;
 					if (dim.getData().compareTo("")==0){
-						dimval = -1;// 表示为没有数字 a[] 在判断维度是否一致是 是否会忽略掉数字？ toDo
+						dimval = -1;// means there is no num in the square bracket
 					}else {
 						dimval = Integer.parseInt(dim.getData());
 					}
@@ -409,6 +390,7 @@ public class SymTabCreationVisitor extends Visitor {
 		p_node.setType(vartype);
 
 		checkDuplicateName(p_node.m_symtab,p_node.m_symtabentry);
+//		checkInheritShadow();
 
 		p_node.m_symtab.addEntry(p_node.m_symtabentry);
 
@@ -589,9 +571,11 @@ public class SymTabCreationVisitor extends Visitor {
 				}
 			}
 		}
-		p_node.setType(p_node.m_symtabentry.m_type);
-		p_node.m_data = p_node.m_symtabentry.m_name;
-		((FuncEntry)p_node.m_symtabentry).tag = p_node.m_symtabentry.m_name + getFuncID();
+		if (p_node.m_symtabentry != null){
+            p_node.setType(p_node.m_symtabentry.m_type);
+            p_node.m_data = p_node.m_symtabentry.m_name;
+            ((FuncEntry)p_node.m_symtabentry).tag = p_node.m_symtabentry.m_name + getFuncID();
+        }
 	}
 
 

@@ -197,11 +197,11 @@ public class TypeCheckingVisitor extends Visitor {
                 //free function
                 index ++;
                 if(!funCallNode.getChildren().get(index).getClass().getSimpleName().equals("AparamList")){
-                    System.out.println(" Error : fucntion call error,  (" + tempVarOrFunc + " ) no params\n");
+                    System.out.println(" Error : function call error,  (" + tempVarOrFunc + " ) no params\n");
                     funCallNode.m_type = "TypeError";
                     createFunCallEntry(funCallNode,entry);
 
-                    this.m_errors += "Fucntion call error:  "
+                    this.m_errors += "function call error:  "
                             + funCallNode.getSubtreeString() + ",  "
                             + tempVarOrFunc
                             + " - function call doesn't come with params"
@@ -220,12 +220,12 @@ public class TypeCheckingVisitor extends Visitor {
                     funCallNode.getChildren().get(index-1).setType(entry.m_type);
 
                 }else {
-                    System.out.println(" Error : fucntion call error,  '  "+ tempVarOrFunc + "( "+ covertParamlsitToStr_node((ArrayList<Node>) aparamList.getChildren()) +" )  ' , can't find this free function \n");
+                    System.out.println(" Error : function call error,  '  "+ tempVarOrFunc + "( "+ covertParamlsitToStr_node((ArrayList<Node>) aparamList.getChildren()) +" )  ' , can't find this free function \n");
                     funCallNode.m_type = "TypeError";
                     String paramStr = covertParamlsitToStr_node((ArrayList<Node>) aparamList.getChildren());
                     createFunCallEntry(funCallNode,entry);
 
-                    this.m_errors += "Fucntion call error:  "
+                    this.m_errors += "Function call error:  "
                             + funCallNode.getSubtreeString() + ",  "
                             + tempVarOrFunc
                             + "( "+ paramStr.substring(0,paramStr.length()-1) +" )"
@@ -240,7 +240,7 @@ public class TypeCheckingVisitor extends Visitor {
                 funCallNode.m_type = "TypeError";
                 createFunCallEntry(funCallNode,entry);
 
-                this.m_errors += "Fucntion call error:  "
+                this.m_errors += "function call error:  "
                         + funCallNode.getSubtreeString() + ",  "
                         + "Can't find the  "
                         + tempVarOrFunc + "\n\n";
@@ -261,7 +261,7 @@ public class TypeCheckingVisitor extends Visitor {
                     funCallNode.m_type = "TypeError";
                     createFunCallEntry(funCallNode,entry);
 
-                    this.m_errors += "Fucntion call error:  "
+                    this.m_errors += "Function call error:  "
                             + funCallNode.getSubtreeString() + ",  "
                             + "Can't find the  "
                             + tempVarOrFunc
@@ -276,7 +276,7 @@ public class TypeCheckingVisitor extends Visitor {
                     funCallNode.m_type = "TypeError";
                     createFunCallEntry(funCallNode,entry);
 
-                    this.m_errors += "Fucntion call error:  "
+                    this.m_errors += "Function call error:  "
                             + funCallNode.getSubtreeString() + ",  "
                             + "Can't find the class "
                             + varType
@@ -293,7 +293,7 @@ public class TypeCheckingVisitor extends Visitor {
                         funCallNode.m_type = "TypeError";
                         createFunCallEntry(funCallNode,entry);
 
-                        this.m_errors += "Fucntion call error:  "
+                        this.m_errors += "Function call error:  "
                                 + funCallNode.getSubtreeString() + ",  "
                                 + "Can't find  "
                                 + tempVarOrFunc
@@ -312,11 +312,11 @@ public class TypeCheckingVisitor extends Visitor {
                         //把参数传给classentry去找相应的function
                         i = i +1;
                         if(!funCallNode.getChildren().get(i).getClass().getSimpleName().equals("AparamList")){
-                            System.out.println(" Error : fucntion call error,  (" + tempVarOrFunc + " ) no params\n");
+                            System.out.println(" Error : Function call error,  (" + tempVarOrFunc + " ) no params\n");
                             funCallNode.m_type = "TypeError";
                             createFunCallEntry(funCallNode,entry);
 
-                            this.m_errors += "Fucntion call error:  "
+                            this.m_errors += "Function call error:  "
                                     + funCallNode.getSubtreeString() + ",  "
                                     + tempVarOrFunc
                                     + " - function call doesn't come with params"
@@ -335,12 +335,12 @@ public class TypeCheckingVisitor extends Visitor {
                             funCallNode.getChildren().get(i-1).setType(entry.m_type);
 
                         }else {
-                            System.out.println(" Error : fucntion call error,  (" + tempVarOrFunc + " ) , can't find it in class "+ tempClass.m_name+"\n");
+                            System.out.println(" Error : Function call error,  (" + tempVarOrFunc + " ) , can't find it in class "+ tempClass.m_name+"\n");
                             funCallNode.m_type = "TypeError";
                             createFunCallEntry(funCallNode,entry);
 
                             String paramStr = covertParamlsitToStr_node((ArrayList<Node>) aparamList.getChildren());
-                            this.m_errors += "Fucntion call error:  "
+                            this.m_errors += "Function call error:  "
                                     + funCallNode.getSubtreeString() + ",  "
                                     + tempVarOrFunc
                                     + "( "+ paramStr +" )\n\n";
@@ -353,7 +353,7 @@ public class TypeCheckingVisitor extends Visitor {
                         funCallNode.m_type = "TypeError";
                         createFunCallEntry(funCallNode,entry);
 
-                        this.m_errors += "Fucntion call error:  "
+                        this.m_errors += "Function call error:  "
                                 + funCallNode.getSubtreeString() + ",  "
                                 + tempVarOrFunc
                                 + " is a " + tempClass.m_subtable.lookupName(tempVarOrFunc).m_kind + ")\n\n";
@@ -361,7 +361,7 @@ public class TypeCheckingVisitor extends Visitor {
                     }
                 }
             } else if (funCallNode.getChildren().get(i).getClass().getSimpleName().equals("IndiceRepNode") ){
-                //说明是varTemp有dim
+
                 // ckeck var 的dim
 
                 if(entry == null || !entry.m_kind.equals("var")) {
@@ -369,7 +369,7 @@ public class TypeCheckingVisitor extends Visitor {
                     funCallNode.m_type = "TypeError";
                     createFunCallEntry(funCallNode,entry);
 
-                    this.m_errors += "Fucntion call error:  "
+                    this.m_errors += "Function call error:  "
                             + funCallNode.getSubtreeString() + ",  "
                             + tempVarOrFunc
                             + " isn't a variable\n\n";
@@ -384,7 +384,7 @@ public class TypeCheckingVisitor extends Visitor {
                     funCallNode.m_type = "TypeError";
                     createFunCallEntry(funCallNode,entry);
 
-                    this.m_errors += "Fucntion call error:  "
+                    this.m_errors += "Function call error:  "
                             + funCallNode.getSubtreeString() + ",  "
                             + tempVarOrFunc
                             + " 's dimension is wrong\n\n";
@@ -402,7 +402,7 @@ public class TypeCheckingVisitor extends Visitor {
                                 funCallNode.m_type = "TypeError";
                                 createFunCallEntry(funCallNode,entry);
 
-                                this.m_errors += "Fucntion call error:  "
+                                this.m_errors += "Function call error:  "
                                         + funCallNode.getSubtreeString() + ",  "
                                         + tempVarOrFunc
                                         + ", dim number must be a integer\n\n";

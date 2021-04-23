@@ -1,0 +1,94 @@
+
+
+Error: , In ( evaluate ) function define, can't find ( evaluate ) function in  ( POLYNOMIAL ) class. 
+Error: , In ( test1 ) function define, can't find ( test1 ) function in  ( POLYNOMIAL ) class. 
+Inherit Error: couldn't find the inherit class :POLYNOMIAL_1
+Error: Function ( evaluate ) hasn't been defined.
+       func evaluate ( float x,int b, ) : float
+
+var error:  result, can't find the (result) 
+
+var error:  a, can't find the (a) 
+
+var error:  x, can't find the (x) 
+
+AddOpNode type error:  a*x+b,  *(TypeError) and b(float)
+AssignStatNode type error: result=a*x+b;,  result(TypeError) and +(typeerror)
+
+Var error:  new_function.a,  Can't find the ( new_function ), use of undeclared variable 
+
+AssignStatNode type error: new_function.a=b;,  (TypeError) and b(float)
+
+Var error:  new_function.a,  Can't find the ( new_function ), use of undeclared variable 
+
+AssignStatNode type error: new_function.a=b;,  (TypeError) and b(float)
+
+function call error:  f1.evaluate(counter),  Can't find the  f1
+
+function call error:  a[1][2].b(12),  Can't find the  a
+
+function call error:  a[1][2].b(12).a(cd).a[1][2].c),  Can't find the  a
+
+Var error:  a[1][2],  Can't find the ( a ), use of undeclared variable 
+
+function call error:  f1.evaluate(v),  Can't find the  f1
+
+Var error:  assss.bbbb,  Can't find the ( assss ), use of undeclared variable 
+
+var error:  c, can't find the (c) 
+
+var error:  f2, can't find the (f2) 
+
+function call error:  f2.build(-2.0,1.0,0.0),  Can't find the  f2
+
+var error:  i, can't find the (i) 
+
+var error:  n, can't find the (n) 
+
+AddOpNode type error:  n-1,  n(TypeError) and 1(integer)
+RelOpNode type error: i < n-1, i(TypeError) and -(typeerror)
+
+Var error:  arr[j],  Can't find the ( arr ), use of undeclared variable 
+
+Var error:  arr[j+1],  Can't find the ( arr ), use of undeclared variable 
+
+var error:  temp, can't find the (temp) 
+
+Var error:  arr[j],  Can't find the ( arr ), use of undeclared variable 
+
+Var error:  arr[j+1],  Can't find the ( arr ), use of undeclared variable 
+
+var error:  temp, can't find the (temp) 
+
+var error:  j, can't find the (j) 
+
+var error:  j, can't find the (j) 
+
+AddOpNode type error:  j+1,  j(TypeError) and 1(integer)
+AssignStatNode type error: j=j+1;,  j(TypeError) and +(typeerror)
+
+Var error:  arr[9][9][0],  Can't find the ( arr ), use of undeclared variable 
+
+AssignStatNode type error: arr[9][9][0]=90;,  (TypeError) and 90(integer)
+
+var error:  a, can't find the (a) 
+
+function call error:  arr[9][9][0].get),  Can't find the  arr
+
+var error:  a, can't find the (a) 
+
+var error:  b, can't find the (b) 
+
+AddOpNode type error:  b+4,  b(TypeError) and 4(integer)
+AddOpNode type error:  b+4+6*10,  +(typeerror) and *(integer)
+AddOpNode type error:  b+4+6*10+6-8,  +(typeerror) and -(integer)
+AssignStatNode type error: a=b+4+6*10+6-8;,  a(TypeError) and +(typeerror)
+
+var error:  i, can't find the (i) 
+
+var error:  i, can't find the (i) 
+
+AddOpNode type error:  i+1,  i(TypeError) and 1(integer)
+AssignStatNode type error: i=i+1;,  i(TypeError) and +(typeerror)
+
+

@@ -11,7 +11,10 @@ public class Parser_syntactic {
     String outFile;
     String errorFile;
     String dotFile;
+    String errorStr = "";
     int id = 0;
+    LexicalAnalyzer lexerAnalyzer;
+
 
     public HashMap<String,Production> productionMap = new HashMap<>();
     public ArrayList<String> terminals = new ArrayList<>();
@@ -57,7 +60,7 @@ public class Parser_syntactic {
     public boolean isNonterminal(String rhs_name) {
 //        System.out.println(rhs_name.substring(0,1));
 //        System.out.println(rhs_name.substring(0,1).compareTo("<") == 0);
-        return (rhs_name.length() > 0 && rhs_name.substring(0,1).compareTo("<") == 0) ? true : false;
+        return rhs_name.length() > 0 && rhs_name.substring(0, 1).compareTo("<") == 0;
     }
 
 
@@ -67,7 +70,7 @@ public class Parser_syntactic {
         initialOutput(srcName);
         boolean result = false;
         // Get token stream from lexer Analyzer
-        LexicalAnalyzer lexerAnalyzer = new LexicalAnalyzer();
+        lexerAnalyzer = new LexicalAnalyzer();
         tokenStream = lexerAnalyzer.tokenizeFile(srcName);
         tokenIndex = -1;
 
@@ -93,7 +96,7 @@ public class Parser_syntactic {
     }
 
     public boolean hasNextToken(){
-        return (tokenIndex < tokenStream.size()-1) ? true : false;
+        return tokenIndex < tokenStream.size() - 1;
     }
     public Token nextToken(){
         Token token;
@@ -247,6 +250,7 @@ public class Parser_syntactic {
     }
 
     public void writeError(String error) throws IOException {
+        errorStr += error + "\n";
         FileWriter errorWrite = new FileWriter("src/result/"+this.errorFile,true);
         errorWrite.write(error + "\n");
         errorWrite.close();
@@ -285,15 +289,10 @@ public class Parser_syntactic {
         if (isRecursiveProduction(production, rhsRow) && inheritsNode.type.compareTo(curNode.type) == 0) {
 //            System.out.println("111111111");
             return true;
-        }else if(
-                makeListPrdctMap.get(inherType) != null &&
-                makeListPrdctMap.get(inherType).compareTo(curType) == 0){
-//            System.out.println("22222222");
-            return true;
-        } else {
+        }else //            System.out.println("22222222");
 //            System.out.println("33333333");
-            return false;
-        }
+            return makeListPrdctMap.get(inherType) != null &&
+                    makeListPrdctMap.get(inherType).compareTo(curType) == 0;
     }
 
     public boolean ifRecursiveOperator(Production production, int rhsRow, ASTNode inheritsNode, ASTNode curNode){
@@ -301,12 +300,8 @@ public class Parser_syntactic {
         String curType = curNode.type;
 
 //        if(makeFamilyProductions.contains(inherType) && inherType.equals(curType)){
-        if(makeFamilyProductions.contains(curType)){
-            //"<arithexprtail>","<termtail>"
-            return true;
-        }else {
-            return false;
-        }
+        //"<arithexprtail>","<termtail>"
+        return makeFamilyProductions.contains(curType);
     }
 
 
@@ -323,38 +318,6 @@ public class Parser_syntactic {
         } else if (ifRecursiveOperator(production,rhsRow,inheritsNode, curNode)){
             //"<arithexprtail>","<termtail>"
 
-            //MakeList, recursive operator addOp, mulOp
-            //<expr> ::= <arithExpr> <exprTail>
-            //<exprTail> ::= <relOp> <arithExpr>
-            //<expr> ::= <arithExpr> <exprTail>
-            //<exprTail> ::= <relOp> <arithExpr>
-            //<exprTail> ::= EPSILON
-            //<arithExpr> ::= <term> <arithExprTail>
-            //<arithExprTail>::= <addOp> <term> <arithExprTail>
-            //<arithExprTail>::= EPSILON
-
-            //<term> ::= <factor> <termTail>
-            //<termTail> ::= EPSILON
-            //<termTail> ::= <multOp> <factor> <termTail>
-
-
-//            ASTNode var1 =  inheritsNode.childrenList.get(inheritsNode.childrenList.size()-1);
-//            inheritsNode.childrenList.remove(inheritsNode.childrenList.size()-1);
-//            ASTNode var2 =  curNode.childrenList.get(1);
-//
-//            ASTNode opNode = curNode.childrenList.get(0);
-//            opNode.childrenList.add(var1);
-//            opNode.childrenList.add(var2);
-//
-//            inheritsNode.childrenList.add(opNode);
-//            root = inheritsNode;
-
-            //找到cur node 的最右边孩子的最左边的叶子节点
-            //和inherit 最右child make famliy
-            // root = curent node
-            // 初始情况是 <arithExprTail>，最右边孩子就是叶子节点
-            //return addOp,
-
             if(curNode.type.equals("<arithexprtail>") ){
                 if(!curNode.childrenList.get(1).type.equals("<addop>")){
                     ASTNode var1 =  inheritsNode.childrenList.get(inheritsNode.childrenList.size()-1);
@@ -367,7 +330,7 @@ public class Parser_syntactic {
 
                     inheritsNode.childrenList.add(opNode);
                 }else {
-                    //找到current的最右child
+                    // get the rightmost child of current node.
                     ASTNode child = curNode.childrenList.get(1);
                     ASTNode parent = null;
                     while (true){
@@ -400,7 +363,7 @@ public class Parser_syntactic {
 
                     inheritsNode.childrenList.add(opNode);
                 }else {
-                    //找到current的最右child
+                    // get the rightmost child of current node
                     ASTNode child = curNode.childrenList.get(1);
                     ASTNode parent = null;
                     while (true){
@@ -506,6 +469,8 @@ public class Parser_syntactic {
 
         System.out.println("1.lh: "+lh);
         // error detecting and error recovery
+        //return true, will continue parsing the current production
+        //return false, will skip the current production
         if (!skipErrors(production)) {
             result.isValid = true;
             return result;
@@ -606,12 +571,6 @@ public class Parser_syntactic {
             result.isValid = false;
         }
 
-//        if(isValid == false){
-////            skip error token
-//            writeError(production.printProduction(),lookahead);
-//            System.out.println("**** error in production: "+ production.printProduction());
-//        }
-
         return result;
     }
 
@@ -663,7 +622,7 @@ public class Parser_syntactic {
 
     public void writeDotFile(ASTNode astTree) {
 
-        this.dotFile = this.filename + ".outast";
+        this.dotFile = this.filename + ".outast_temp";
         try {
             File output = new File("src/result/" + dotFile);
             if (output.createNewFile()) {
@@ -713,8 +672,6 @@ public class Parser_syntactic {
             depthTraverse(child);
         }
     }
-
-
 
 
 

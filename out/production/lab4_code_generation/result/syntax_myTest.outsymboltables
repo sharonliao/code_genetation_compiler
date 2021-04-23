@@ -1,0 +1,52 @@
+
+===========================================================
+| table: global           scope size: 0             |
+===========================================================
+| class     | POLYNOMIAL                            |
+|    ===========================================================
+|    | table: POLYNOMIAL       scope size: 0             |
+|    ===========================================================
+|    | inherit   | POLYNOMIAL_1 | class        | not linked
+|    | var       | b            | float        | 0     | 0     |
+|    | func      | evaluate     | float                       |
+|    |    ===========================================================
+|    |    | table: evaluate         scope size: 0             |
+|    |    ===========================================================
+|    |    | param     | x            | float[ ][ ][ ]| 0     | 0     |
+|    |    | param     | b            | int          | 0     | 0     |
+|    |    ===========================================================
+|    | tempvar   | t1           | TypeError    | 0     | 0     |
+|    | tempvar   | t2           | typeerror    | 0     | 0     |
+|    | retval    | t3           | TypeError    | 0     | 0     |
+|    | retval    | t4           | TypeError    | 0     | 0     |
+|    | retval    | t5           | TypeError    | 0     | 0     |
+|    | retval    | t6           | TypeError    | 0     | 0     |
+|    ===========================================================
+| func      | program      | void                        |
+|    ===========================================================
+|    | table: program          scope size: 0             |
+|    ===========================================================
+|    | var       | f1           | linear       | 0     | 0     |
+|    | retval    | t7           | TypeError    | 0     | 0     |
+|    | litval    | t8           | integer      | 0     | 0     |
+|    | tempvar   | t9           | typeerror    | 0     | 0     |
+|    | tempvar   | t10          | typeerror    | 0     | 0     |
+|    | tempvar   | t11          | integer      | 0     | 0     |
+|    | litval    | t12          | integer      | 0     | 0     |
+|    | tempvar   | t13          | typeerror    | 0     | 0     |
+|    | litval    | t14          | integer      | 0     | 0     |
+|    | retval    | t15          | TypeError    | 0     | 0     |
+|    | litval    | t16          | integer      | 0     | 0     |
+|    | tempvar   | t17          | typeerror    | 0     | 0     |
+|    | litval    | t18          | integer      | 0     | 0     |
+|    | litval    | t19          | integer      | 0     | 0     |
+|    | tempvar   | t20          | integer      | 0     | 0     |
+|    | tempvar   | t21          | typeerror    | 0     | 0     |
+|    | litval    | t22          | integer      | 0     | 0     |
+|    | litval    | t23          | integer      | 0     | 0     |
+|    | tempvar   | t24          | integer      | 0     | 0     |
+|    | tempvar   | t25          | typeerror    | 0     | 0     |
+|    | litval    | t26          | integer      | 0     | 0     |
+|    | tempvar   | t27          | typeerror    | 0     | 0     |
+|    ===========================================================
+===========================================================

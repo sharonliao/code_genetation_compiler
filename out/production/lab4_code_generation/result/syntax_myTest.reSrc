@@ -1,0 +1,21 @@
+evaluate(float x;)float {
+  result=a*x+b;
+  new_function.a=b;
+}
+test1(int x;)void {
+  new_function.a=b;
+  f1.evaluate(counter)
+  a[1][2].b(12)
+  a[1][2].b(12).a(cd).a[1][2].c)
+  a[1][2]=f1.evaluate(v);
+  assss.bbbb=c;
+}
+program{
+  
+  {
+  f2=f2.build(-2.0,1.0,0.0);
+  
+}
+
+}
+

@@ -1,0 +1,6 @@
+Error: , In ( evaluate ) function define, can't find ( evaluate ) function in  ( QUADRATIC ) class. 
+Error: Inherit chain has the loop at :CircularTest      loop path: CircularTest -> AA -> BB -> CircularTest
+
+Error: Function ( evaluate ) hasn't been defined.
+       func evaluate ( float x, ) : float
+

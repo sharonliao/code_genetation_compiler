@@ -1,0 +1,43 @@
+evaluate(float x;)float {
+  result=0.0;
+  result=a*x+b;
+  return(result);
+}
+evaluate(float x;)float {
+  result=a;
+  result=result*x+b;
+  result=result*x+c;
+  return(result);
+}
+evaluate(integer x;)float build(float A; float B;)LINEAR {
+  new_function.a=A;
+  new_function.b=B;
+  return(new_function);
+}
+build(float A; float B; float C;)QUADRATIC {
+  new_function.a=A;
+  new_function.b=B;
+  new_function.c=C;
+  return(new_function);
+}
+testArr(integer arr[][]; integer index;)integer {
+  result=arr[1][2]+index;
+}
+program{
+  
+  {
+  arr[floatCounter]=0;
+  arr[0][0]=1;
+  linear1=linear1.build(2,3.5);
+  quadratic2=quadratic2.build(-2.0,1.0,0.0);
+  counter=1;
+  floatCounter=1.0;
+  test.testArr(arr,0)
+  counter.ab=0;
+  linear1.ab=0;
+  a=1+0.1+2;
+  
+}
+
+}
+

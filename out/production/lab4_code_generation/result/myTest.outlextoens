@@ -4,110 +4,130 @@
 [class, class, 3] [id, POLYNOMIAL, 3] [{, {, 3] 
 [private, private, 4] [integer, integer, 4] [id, b, 4] [;, ;, 4] 
 [private, private, 5] [integer, integer, 5] [id, d, 5] [;, ;, 5] 
-[public, public, 6] [func, func, 6] [id, evaluate, 6] [(, (, 6] [integer, integer, 6] [id, x, 6] [), ), 6] [:, :, 6] [integer, integer, 6] [;, ;, 6] 
-[}, }, 7] [;, ;, 7] 
+[integer, integer, 6] [id, array, 6] [[, [, 6] [intlit, 10, 6] [], ], 6] [;, ;, 6] 
+[public, public, 7] [func, func, 7] [id, evaluate, 7] [(, (, 7] [integer, integer, 7] [id, x, 7] [), ), 7] [:, :, 7] [integer, integer, 7] [;, ;, 7] 
+[}, }, 8] [;, ;, 8] 
 
-[class, class, 9] [id, LINEAR, 9] [inherits, inherits, 9] [id, POLYNOMIAL, 9] 
-[{, {, 10] 
-[private, private, 11] [integer, integer, 11] [id, a, 11] [;, ;, 11] 
-[private, private, 12] [integer, integer, 12] [id, b, 12] [;, ;, 12] 
-[id, POLYNOMIAL, 13] [id, polynomial_obj, 13] [;, ;, 13] [inlinecmt, // object data members, 13] 
+[class, class, 10] [id, LINEAR, 10] [inherits, inherits, 10] [id, POLYNOMIAL, 10] 
+[{, {, 11] 
+[private, private, 12] [integer, integer, 12] [id, a, 12] [;, ;, 12] 
+[private, private, 13] [integer, integer, 13] [id, b, 13] [;, ;, 13] 
+[id, POLYNOMIAL, 14] [id, polynomial_obj, 14] [;, ;, 14] [inlinecmt, // object data members, 14] 
 
-[public, public, 15] [func, func, 15] [id, evaluate, 15] [(, (, 15] [integer, integer, 15] [id, x, 15] [), ), 15] [:, :, 15] [integer, integer, 15] [;, ;, 15] 
-[}, }, 16] [;, ;, 16] 
+[public, public, 16] [func, func, 16] [id, evaluate, 16] [(, (, 16] [integer, integer, 16] [id, x, 16] [), ), 16] [:, :, 16] [integer, integer, 16] [;, ;, 16] 
+[}, }, 17] [;, ;, 17] 
 
 
 
-[inlinecmt, // ====== Function Definitions ====== //, 20] 
+[inlinecmt, // ====== Function Definitions ====== //, 21] 
 
-[func, func, 22] [id, POLYNOMIAL, 22] [sr, ::, 22] [id, evaluate, 22] [(, (, 22] [integer, integer, 22] [id, x, 22] [), ), 22] [:, :, 22] [integer, integer, 22] 
-[{, {, 23] 
-[var, var, 24] 
-[{, {, 25] 
-[integer, integer, 26] [id, bb, 26] [;, ;, 26] [inlinecmt, // if x = 2，then return 3;, 26] 
-[}, }, 27] 
-[id, bb, 28] [=, =, 28] [intlit, 1, 28] [;, ;, 28] 
-[return, return, 29] [(, (, 29] [id, bb, 29] [+, +, 29] [id, x, 29] [), ), 29] [;, ;, 29] [inlinecmt, // the function has a return, 29] 
-[}, }, 30] 
+[func, func, 23] [id, POLYNOMIAL, 23] [sr, ::, 23] [id, evaluate, 23] [(, (, 23] [integer, integer, 23] [id, x, 23] [), ), 23] [:, :, 23] [integer, integer, 23] 
+[{, {, 24] 
+[var, var, 25] 
+[{, {, 26] 
+[integer, integer, 27] [id, bb, 27] [;, ;, 27] [inlinecmt, // if x = 2，then return 3;, 27] 
+[}, }, 28] 
+[id, bb, 29] [=, =, 29] [intlit, 1, 29] [;, ;, 29] 
+[return, return, 30] [(, (, 30] [id, bb, 30] [+, +, 30] [id, x, 30] [), ), 30] [;, ;, 30] [inlinecmt, // the function has a return, 30] 
+[}, }, 31] 
 
-[func, func, 32] [id, LINEAR, 32] [sr, ::, 32] [id, evaluate, 32] [(, (, 32] [integer, integer, 32] [id, x, 32] [), ), 32] [:, :, 32] [integer, integer, 32] 
-[{, {, 33] 
-[var, var, 34] 
+
+[func, func, 34] [id, LINEAR, 34] [sr, ::, 34] [id, evaluate, 34] [(, (, 34] [integer, integer, 34] [id, x, 34] [), ), 34] [:, :, 34] [integer, integer, 34] 
 [{, {, 35] 
-[integer, integer, 36] [id, bb, 36] [;, ;, 36] 
-[}, }, 37] 
-[id, bb, 38] [=, =, 38] [intlit, 1, 38] [;, ;, 38] 
+[var, var, 36] 
+[{, {, 37] 
+[integer, integer, 38] [id, bb, 38] [;, ;, 38] 
 [}, }, 39] 
+[id, bb, 40] [=, =, 40] [intlit, 1, 40] [;, ;, 40] 
+[}, }, 41] 
 
-
-
-[inlinecmt, // ====== main ====== //, 43] 
-[main, main, 44] 
+[func, func, 43] [id, freefunc, 43] [(, (, 43] [integer, integer, 43] [id, x, 43] [), ), 43] [:, :, 43] [void, void, 43] [{, {, 43] 
+[var, var, 44] 
 [{, {, 45] 
-[var, var, 46] 
-[{, {, 47] 
-[id, POLYNOMIAL, 48] [id, polynomial1, 48] [;, ;, 48] [inlinecmt, // Allocate memory for objects, 48] 
-[id, POLYNOMIAL, 49] [id, polynomial2, 49] [;, ;, 49] 
-[id, LINEAR, 50] [id, linear1, 50] [;, ;, 50] 
-[integer, integer, 51] [id, a, 51] [;, ;, 51] [inlinecmt, // Allocate memory for objects, 51] 
-[integer, integer, 52] [id, b, 52] [;, ;, 52] 
-[integer, integer, 53] [id, c, 53] [;, ;, 53] 
-[integer, integer, 54] [id, d, 54] [;, ;, 54] 
-[integer, integer, 55] [id, result, 55] [;, ;, 55] 
-[integer, integer, 56] [id, express_test, 56] [;, ;, 56] 
-[integer, integer, 57] [id, array, 57] [[, [, 57] [intlit, 10, 57] [], ], 57] [[, [, 57] [intlit, 10, 57] [], ], 57] [;, ;, 57] [inlinecmt, // Allocate memory for arrays of basic types, 57] 
-[integer, integer, 58] [id, counter, 58] [;, ;, 58] 
-[integer, integer, 59] [id, read_test, 59] [;, ;, 59] 
-[id, POLYNOMIAL, 60] [id, array_object, 60] [[, [, 60] [intlit, 10, 60] [], ], 60] [;, ;, 60] [inlinecmt, // Allocate memory for arrays of objects, 60] 
-
-[}, }, 62] 
-[id, polynomial1, 63] [., ., 63] [id, b, 63] [=, =, 63] [intlit, 1, 63] [;, ;, 63] [inlinecmt, // For objects, access to members of basic types, 63] 
-[id, polynomial2, 64] [., ., 64] [id, d, 64] [=, =, 64] [intlit, 1, 64] [;, ;, 64] 
-[id, polynomial2, 65] [., ., 65] [id, b, 65] [=, =, 65] [intlit, 1, 65] [;, ;, 65] 
-[write, write, 66] [(, (, 66] [id, polynomial1, 66] [., ., 66] [id, b, 66] [), ), 66] [;, ;, 66] [inlinecmt, // print 1, 66] 
-
-[id, linear1, 68] [., ., 68] [id, polynomial_obj, 68] [., ., 68] [id, b, 68] [=, =, 68] [intlit, 2, 68] [;, ;, 68] [inlinecmt, // For objects, access to members of object types, 68] 
-[id, b, 69] [=, =, 69] [id, linear1, 69] [., ., 69] [id, polynomial_obj, 69] [., ., 69] [id, b, 69] [;, ;, 69] 
-[write, write, 70] [(, (, 70] [id, b, 70] [), ), 70] [;, ;, 70] [inlinecmt, // print 2, 70] 
-
-[id, c, 72] [=, =, 72] [id, polynomial1, 72] [., ., 72] [id, b, 72] [+, +, 72] [id, polynomial2, 72] [., ., 72] [id, b, 72] [;, ;, 72] 
-
-[id, result, 74] [=, =, 74] [id, polynomial1, 74] [., ., 74] [id, evaluate, 74] [(, (, 74] [id, c, 74] [), ), 74] [;, ;, 74] [inlinecmt, // Pass parameters as local values to the function’s code block., 74] 
-[write, write, 75] [(, (, 75] [id, result, 75] [), ), 75] [;, ;, 75] [inlinecmt, //print 3                 // Upon execution of a return statement, pass the return value back to the calling function., 75] 
-
-[id, array, 77] [[, [, 77] [intlit, 1, 77] [], ], 77] [[, [, 77] [intlit, 1, 77] [], ], 77] [=, =, 77] [intlit, 4, 77] [;, ;, 77] [inlinecmt, // For arrays of basic types (integer), access to an array’s elements., 77] 
-[write, write, 78] [(, (, 78] [id, array, 78] [[, [, 78] [intlit, 1, 78] [], ], 78] [[, [, 78] [intlit, 1, 78] [], ], 78] [), ), 78] [;, ;, 78] [inlinecmt, //print 4, 78] 
-
-[id, array_object, 80] [[, [, 80] [intlit, 2, 80] [], ], 80] [., ., 80] [id, b, 80] [=, =, 80] [intlit, 5, 80] [;, ;, 80] [inlinecmt, // For arrays of objects, access to an array’s element’s data members, 80] 
-[write, write, 81] [(, (, 81] [id, array_object, 81] [[, [, 81] [intlit, 2, 81] [], ], 81] [., ., 81] [id, b, 81] [), ), 81] [;, ;, 81] [inlinecmt, //print 5, 81] 
-
-[id, express_test, 83] [=, =, 83] [intlit, 4, 83] [*, *, 83] [intlit, 3, 83] [+, +, 83] [(, (, 83] [intlit, 4, 83] [+, +, 83] [intlit, 100, 83] [), ), 83] [/, /, 83] [(, (, 83] [intlit, 1, 83] [+, +, 83] [intlit, 1, 83] [), ), 83] [-, -, 83] [intlit, 58, 83] [;, ;, 83] [inlinecmt, // Computing the value of an entire complex expression, 83] 
-[write, write, 84] [(, (, 84] [id, express_test, 84] [), ), 84] [;, ;, 84] [inlinecmt, //print 6, 84] 
+[integer, integer, 46] [id, input, 46] [;, ;, 46] 
+[}, }, 47] 
+[id, input, 48] [=, =, 48] [intlit, 1, 48] [;, ;, 48] 
+[write, write, 49] [(, (, 49] [id, input, 49] [+, +, 49] [id, x, 49] [), ), 49] [;, ;, 49] 
+[}, }, 50] 
 
 
-[read, read, 87] [(, (, 87] [id, read_test, 87] [), ), 87] [;, ;, 87] [inlinecmt, //test input 3            // Input statement, 87] 
 
-[if, if, 89] [(, (, 89] [id, result, 89] [gt, >, 89] [intlit, 2, 89] [), ), 89] [inlinecmt, // result = 3               // if statement, branch1, 89] 
-[then, then, 90] [{, {, 90] 
-[write, write, 91] [(, (, 91] [id, read_test, 91] [+, +, 91] [intlit, 4, 91] [), ), 91] [;, ;, 91] [inlinecmt, //print 7, 91] 
-[}, }, 92] [else, else, 92] [{, {, 92] 
-[write, write, 93] [(, (, 93] [intlit, 2000, 93] [), ), 93] [;, ;, 93] 
-[}, }, 94] [;, ;, 94] 
 
-[if, if, 96] [(, (, 96] [id, result, 96] [lt, <, 96] [intlit, 2, 96] [), ), 96] [inlinecmt, // if statement, branch2, 96] 
-[then, then, 97] [{, {, 97] 
-[write, write, 98] [(, (, 98] [intlit, 999, 98] [), ), 98] [;, ;, 98] 
-[}, }, 99] [else, else, 99] [{, {, 99] 
-[write, write, 100] [(, (, 100] [id, read_test, 100] [+, +, 100] [intlit, 5, 100] [), ), 100] [;, ;, 100] [inlinecmt, //print 8, 100] 
-[}, }, 101] [;, ;, 101] 
+[inlinecmt, // ====== main ====== //, 55] 
+[main, main, 56] 
+[{, {, 57] 
+[var, var, 58] 
+[{, {, 59] 
+[id, POLYNOMIAL, 60] [id, polynomial1, 60] [;, ;, 60] [inlinecmt, // Allocate memory for objects, 60] 
+[id, POLYNOMIAL, 61] [id, polynomial2, 61] [;, ;, 61] 
+[id, LINEAR, 62] [id, linear1, 62] [;, ;, 62] 
+[integer, integer, 63] [id, a, 63] [;, ;, 63] [inlinecmt, // Allocate memory for objects, 63] 
+[integer, integer, 64] [id, b, 64] [;, ;, 64] 
+[integer, integer, 65] [id, c, 65] [;, ;, 65] 
+[integer, integer, 66] [id, d, 66] [;, ;, 66] 
+[integer, integer, 67] [id, result, 67] [;, ;, 67] 
+[integer, integer, 68] [id, express_test, 68] [;, ;, 68] 
+[integer, integer, 69] [id, array, 69] [[, [, 69] [intlit, 10, 69] [], ], 69] [[, [, 69] [intlit, 10, 69] [], ], 69] [;, ;, 69] [inlinecmt, // Allocate memory for arrays of basic types, 69] 
+[integer, integer, 70] [id, counter, 70] [;, ;, 70] 
+[integer, integer, 71] [id, read_test, 71] [;, ;, 71] 
+[id, POLYNOMIAL, 72] [id, array_object, 72] [[, [, 72] [intlit, 10, 72] [], ], 72] [;, ;, 72] [inlinecmt, // Allocate memory for arrays of objects, 72] 
 
-[id, counter, 103] [=, =, 103] [intlit, 9, 103] [;, ;, 103] 
+[}, }, 74] 
+[id, polynomial1, 75] [., ., 75] [id, b, 75] [=, =, 75] [intlit, 1, 75] [;, ;, 75] [inlinecmt, // For objects, access to members of basic types, 75] 
+[id, polynomial2, 76] [., ., 76] [id, d, 76] [=, =, 76] [intlit, 1, 76] [;, ;, 76] 
+[id, polynomial2, 77] [., ., 77] [id, b, 77] [=, =, 77] [intlit, 1, 77] [;, ;, 77] 
 
-[while, while, 105] [(, (, 105] [id, counter, 105] [lt, <, 105] [intlit, 11, 105] [), ), 105] [{, {, 105] [inlinecmt, // while loop, 105] 
-[write, write, 106] [(, (, 106] [id, counter, 106] [), ), 106] [;, ;, 106] [inlinecmt, // print 9 10, 106] 
-[id, counter, 107] [=, =, 107] [id, counter, 107] [+, +, 107] [intlit, 1, 107] [;, ;, 107] 
-[}, }, 108] [;, ;, 108] 
-[}, }, 109] 
+[id, polynomial1, 79] [., ., 79] [id, array, 79] [[, [, 79] [intlit, 1, 79] [], ], 79] [=, =, 79] [intlit, 9, 79] [;, ;, 79] 
+[write, write, 80] [(, (, 80] [id, polynomial1, 80] [., ., 80] [id, array, 80] [[, [, 80] [intlit, 1, 80] [], ], 80] [), ), 80] [;, ;, 80] 
+[write, write, 81] [(, (, 81] [id, linear1, 81] [., ., 81] [id, polynomial_obj, 81] [., ., 81] [id, evaluate, 81] [(, (, 81] [intlit, 1, 81] [), ), 81] [), ), 81] [;, ;, 81] 
+
+[write, write, 83] [(, (, 83] [id, polynomial1, 83] [., ., 83] [id, b, 83] [), ), 83] [;, ;, 83] [inlinecmt, // print 1, 83] 
+
+[id, linear1, 85] [., ., 85] [id, polynomial_obj, 85] [., ., 85] [id, b, 85] [=, =, 85] [intlit, 2, 85] [;, ;, 85] [inlinecmt, // For objects, access to members of object types, 85] 
+[id, b, 86] [=, =, 86] [id, linear1, 86] [., ., 86] [id, polynomial_obj, 86] [., ., 86] [id, b, 86] [;, ;, 86] 
+[write, write, 87] [(, (, 87] [id, b, 87] [), ), 87] [;, ;, 87] [inlinecmt, // print 2, 87] 
+
+[id, c, 89] [=, =, 89] [id, polynomial1, 89] [., ., 89] [id, b, 89] [+, +, 89] [id, polynomial2, 89] [., ., 89] [id, b, 89] [;, ;, 89] [inlinecmt, //  c = 1+1 ,expression involving an object factor referring to object members., 89] 
+
+[id, result, 91] [=, =, 91] [id, polynomial1, 91] [., ., 91] [id, evaluate, 91] [(, (, 91] [id, c, 91] [), ), 91] [;, ;, 91] [inlinecmt, // Pass parameters as local values to the function’s code block., 91] 
+[write, write, 92] [(, (, 92] [id, result, 92] [), ), 92] [;, ;, 92] [inlinecmt, //print 3                 // Upon execution of a return statement, pass the return value back to the calling function., 92] 
+
+[id, array, 94] [[, [, 94] [intlit, 1, 94] [], ], 94] [[, [, 94] [intlit, 1, 94] [], ], 94] [=, =, 94] [intlit, 4, 94] [;, ;, 94] [inlinecmt, // For arrays of basic types (integer), access to an array’s elements., 94] 
+
+[write, write, 96] [(, (, 96] [id, array, 96] [[, [, 96] [intlit, 1, 96] [], ], 96] [[, [, 96] [intlit, 1, 96] [], ], 96] [+, +, 96] [intlit, 1, 96] [), ), 96] [;, ;, 96] [inlinecmt, //print 5, 96] 
+
+[id, array_object, 98] [[, [, 98] [intlit, 2, 98] [], ], 98] [., ., 98] [id, b, 98] [=, =, 98] [intlit, 5, 98] [;, ;, 98] [inlinecmt, // For arrays of objects, access to an array’s element’s data members, 98] 
+[write, write, 99] [(, (, 99] [id, array_object, 99] [[, [, 99] [intlit, 2, 99] [], ], 99] [., ., 99] [id, b, 99] [), ), 99] [;, ;, 99] [inlinecmt, //print 5, 99] 
+
+[id, express_test, 101] [=, =, 101] [intlit, 4, 101] [*, *, 101] [intlit, 3, 101] [+, +, 101] [(, (, 101] [intlit, 4, 101] [+, +, 101] [intlit, 100, 101] [), ), 101] [/, /, 101] [(, (, 101] [intlit, 1, 101] [+, +, 101] [intlit, 1, 101] [), ), 101] [-, -, 101] [intlit, 58, 101] [;, ;, 101] [inlinecmt, // Computing the value of an entire complex expression, 101] 
+[write, write, 102] [(, (, 102] [id, express_test, 102] [), ), 102] [;, ;, 102] [inlinecmt, //print 6, 102] 
+
+
+[read, read, 105] [(, (, 105] [id, read_test, 105] [), ), 105] [;, ;, 105] [inlinecmt, //test input 3            // Input statement, 105] 
+
+[if, if, 107] [(, (, 107] [id, result, 107] [gt, >, 107] [intlit, 2, 107] [), ), 107] [inlinecmt, // result = 3               // if statement, branch1, 107] 
+[then, then, 108] [{, {, 108] 
+[write, write, 109] [(, (, 109] [id, read_test, 109] [+, +, 109] [intlit, 4, 109] [), ), 109] [;, ;, 109] [inlinecmt, //print 7, 109] 
+[}, }, 110] [else, else, 110] [{, {, 110] 
+[write, write, 111] [(, (, 111] [intlit, 2000, 111] [), ), 111] [;, ;, 111] 
+[}, }, 112] [;, ;, 112] 
+
+[if, if, 114] [(, (, 114] [id, result, 114] [lt, <, 114] [intlit, 2, 114] [), ), 114] [inlinecmt, // if statement, branch2, 114] 
+[then, then, 115] 
+[write, write, 116] [(, (, 116] [intlit, 999, 116] [), ), 116] [;, ;, 116] 
+[else, else, 117] 
+[write, write, 118] [(, (, 118] [id, read_test, 118] [+, +, 118] [intlit, 5, 118] [), ), 118] [;, ;, 118] [inlinecmt, //print 8, 118] 
+[;, ;, 119] 
+
+[id, counter, 121] [=, =, 121] [intlit, 9, 121] [;, ;, 121] 
+
+[while, while, 123] [(, (, 123] [id, counter, 123] [lt, <, 123] [intlit, 11, 123] [), ), 123] [{, {, 123] [inlinecmt, // while loop, 123] 
+[write, write, 124] [(, (, 124] [id, counter, 124] [), ), 124] [;, ;, 124] [inlinecmt, // print 9 10, 124] 
+[id, counter, 125] [=, =, 125] [id, counter, 125] [+, +, 125] [intlit, 1, 125] [;, ;, 125] 
+[}, }, 126] [;, ;, 126] 
+
+[id, freefunc, 128] [(, (, 128] [id, counter, 128] [), ), 128] [;, ;, 128] [inlinecmt, // print 12  (count:11 + 1 = 12), free fucntion call, 128] 
+[}, }, 129] 
 
 
 

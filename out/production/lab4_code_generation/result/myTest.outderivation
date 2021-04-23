@@ -11,6 +11,14 @@
 <vardecl> -> <type> 'id' <arraysizerept> ';' 
 <memberdecl> -> <vardecl> 
 <classdeclbody> -> <visibility> <memberdecl> 
+<visibility> -> epsilon
+<type> -> 'integer' 
+<intnum> -> 'intlit' 
+<arraysizerept> -> epsilon
+<arraysizerept> -> '[' <intnum> ']' <arraysizerept> 
+<vardecl> -> <type> 'id' <arraysizerept> ';' 
+<memberdecl> -> <vardecl> 
+<classdeclbody> -> <visibility> <memberdecl> 
 <visibility> -> 'public' 
 <type> -> 'integer' 
 <arraysizerept> -> epsilon
@@ -23,6 +31,7 @@
 <memberdecl> -> <funcdecl> 
 <classdeclbody> -> <visibility> <memberdecl> 
 <classdeclbodylist> -> epsilon
+<classdeclbodylist> -> <classdeclbody> <classdeclbodylist> 
 <classdeclbodylist> -> <classdeclbody> <classdeclbodylist> 
 <classdeclbodylist> -> <classdeclbody> <classdeclbodylist> 
 <classdeclbodylist> -> <classdeclbody> <classdeclbodylist> 
@@ -151,7 +160,58 @@
 <statementlist> -> <statement> <statementlist> 
 <funcbody> -> '{' <methodbodyvar> <statementlist> '}' 
 <function> -> <funchead> <funcbody> 
+<classmethod> -> epsilon
+<type> -> 'integer' 
+<arraysizerept> -> epsilon
+<fparam> -> <type> 'id' <arraysizerept> 
+<fparamstail> -> epsilon
+<fparams> -> <fparam> <fparamstail> 
+<funcdecltail> -> 'void' 
+<funchead> -> 'func' 'id' <classmethod> '(' <fparams> ')' ':' <funcdecltail> 
+<type> -> 'integer' 
+<arraysizerept> -> epsilon
+<vardecl> -> <type> 'id' <arraysizerept> ';' 
+<vardeclrep> -> epsilon
+<vardeclrep> -> <vardecl> <vardeclrep> 
+<methodbodyvar> -> 'var' '{' <vardeclrep> '}' 
+<indicerep> -> epsilon
+<assignop> -> '=' 
+<factor> -> 'intlit' 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> epsilon
+<expr> -> <arithexpr> <exprtail> 
+<assignstattail> -> <assignop> <expr> 
+<funcorassignstatidnestvartail> -> <assignstattail> 
+<funcorassignstatidnest> -> <indicerep> <funcorassignstatidnestvartail> 
+<funcorassignstat> -> 'id' <funcorassignstatidnest> 
+<statement> -> <funcorassignstat> ';' 
+<funcorvaridnest> -> epsilon
+<funcorvar> -> 'id' <funcorvaridnest> 
+<factor> -> <funcorvar> 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<addop> -> '+' 
+<funcorvaridnest> -> epsilon
+<funcorvar> -> 'id' <funcorvaridnest> 
+<factor> -> <funcorvar> 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexprtail> -> <addop> <term> <arithexprtail> 
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> epsilon
+<expr> -> <arithexpr> <exprtail> 
+<statement> -> 'write' '(' <expr> ')' ';' 
+<statementlist> -> epsilon
+<statementlist> -> <statement> <statementlist> 
+<statementlist> -> <statement> <statementlist> 
+<funcbody> -> '{' <methodbodyvar> <statementlist> '}' 
+<function> -> <funchead> <funcbody> 
 <funcdef> -> epsilon
+<funcdef> -> <function> <funcdef> 
 <funcdef> -> <function> <funcdef> 
 <funcdef> -> <function> <funcdef> 
 <type> -> 'id' 
@@ -265,6 +325,80 @@
 <funcorassignstatidnest> -> <indicerep> <funcorassignstatidnestvartail> 
 <funcorassignstat> -> 'id' <funcorassignstatidnest> 
 <statement> -> <funcorassignstat> ';' 
+<indicerep> -> epsilon
+<factor> -> 'intlit' 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> epsilon
+<expr> -> <arithexpr> <exprtail> 
+<indicerep> -> epsilon
+<indicerep> -> '[' <expr> ']' <indicerep> 
+<assignop> -> '=' 
+<factor> -> 'intlit' 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> epsilon
+<expr> -> <arithexpr> <exprtail> 
+<assignstattail> -> <assignop> <expr> 
+<funcorassignstatidnestvartail> -> <assignstattail> 
+<funcorassignstatidnest> -> <indicerep> <funcorassignstatidnestvartail> 
+<funcorassignstatidnestvartail> -> '.' 'id' <funcorassignstatidnest> 
+<funcorassignstatidnest> -> <indicerep> <funcorassignstatidnestvartail> 
+<funcorassignstat> -> 'id' <funcorassignstatidnest> 
+<statement> -> <funcorassignstat> ';' 
+<indicerep> -> epsilon
+<factor> -> 'intlit' 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> epsilon
+<expr> -> <arithexpr> <exprtail> 
+<indicerep> -> epsilon
+<indicerep> -> '[' <expr> ']' <indicerep> 
+<funcorvaridnesttail> -> epsilon
+<funcorvaridnest> -> <indicerep> <funcorvaridnesttail> 
+<funcorvaridnesttail> -> '.' 'id' <funcorvaridnest> 
+<funcorvaridnest> -> <indicerep> <funcorvaridnesttail> 
+<funcorvar> -> 'id' <funcorvaridnest> 
+<factor> -> <funcorvar> 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> epsilon
+<expr> -> <arithexpr> <exprtail> 
+<statement> -> 'write' '(' <expr> ')' ';' 
+<indicerep> -> epsilon
+<indicerep> -> epsilon
+<factor> -> 'intlit' 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> epsilon
+<expr> -> <arithexpr> <exprtail> 
+<aparamstail> -> epsilon
+<aparams> -> <expr> <aparamstail> 
+<funcorvaridnesttail> -> epsilon
+<funcorvaridnest> -> '(' <aparams> ')' <funcorvaridnesttail> 
+<funcorvaridnesttail> -> '.' 'id' <funcorvaridnest> 
+<funcorvaridnest> -> <indicerep> <funcorvaridnesttail> 
+<funcorvaridnesttail> -> '.' 'id' <funcorvaridnest> 
+<funcorvaridnest> -> <indicerep> <funcorvaridnesttail> 
+<funcorvar> -> 'id' <funcorvaridnest> 
+<factor> -> <funcorvar> 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> epsilon
+<expr> -> <arithexpr> <exprtail> 
+<statement> -> 'write' '(' <expr> ')' ';' 
 <indicerep> -> epsilon
 <funcorvaridnest> -> epsilon
 <funcorvaridnesttail> -> '.' 'id' <funcorvaridnest> 
@@ -453,7 +587,12 @@
 <factor> -> <funcorvar> 
 <termtail> -> epsilon
 <term> -> <factor> <termtail> 
+<addop> -> '+' 
+<factor> -> 'intlit' 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
 <arithexprtail> -> epsilon
+<arithexprtail> -> <addop> <term> <arithexprtail> 
 <arithexpr> -> <term> <arithexprtail> 
 <exprtail> -> epsilon
 <expr> -> <arithexpr> <exprtail> 
@@ -639,9 +778,7 @@
 <exprtail> -> epsilon
 <expr> -> <arithexpr> <exprtail> 
 <statement> -> 'write' '(' <expr> ')' ';' 
-<statementlist> -> epsilon
-<statementlist> -> <statement> <statementlist> 
-<statblock> -> '{' <statementlist> '}' 
+<statblock> -> <statement> 
 <funcorvaridnest> -> epsilon
 <funcorvar> -> 'id' <funcorvaridnest> 
 <factor> -> <funcorvar> 
@@ -657,9 +794,7 @@
 <exprtail> -> epsilon
 <expr> -> <arithexpr> <exprtail> 
 <statement> -> 'write' '(' <expr> ')' ';' 
-<statementlist> -> epsilon
-<statementlist> -> <statement> <statementlist> 
-<statblock> -> '{' <statementlist> '}' 
+<statblock> -> <statement> 
 <statement> -> 'if' '(' <expr> ')' 'then' <statblock> 'else' <statblock> ';' 
 <indicerep> -> epsilon
 <assignop> -> '=' 
@@ -726,7 +861,26 @@
 <statementlist> -> <statement> <statementlist> 
 <statblock> -> '{' <statementlist> '}' 
 <statement> -> 'while' '(' <expr> ')' <statblock> ';' 
+<funcorvaridnest> -> epsilon
+<funcorvar> -> 'id' <funcorvaridnest> 
+<factor> -> <funcorvar> 
+<termtail> -> epsilon
+<term> -> <factor> <termtail> 
+<arithexprtail> -> epsilon
+<arithexpr> -> <term> <arithexprtail> 
+<exprtail> -> epsilon
+<expr> -> <arithexpr> <exprtail> 
+<aparamstail> -> epsilon
+<aparams> -> <expr> <aparamstail> 
+<funcorassignstatidnestfunctail> -> epsilon
+<funcorassignstatidnest> -> '(' <aparams> ')' <funcorassignstatidnestfunctail> 
+<funcorassignstat> -> 'id' <funcorassignstatidnest> 
+<statement> -> <funcorassignstat> ';' 
 <statementlist> -> epsilon
+<statementlist> -> <statement> <statementlist> 
+<statementlist> -> <statement> <statementlist> 
+<statementlist> -> <statement> <statementlist> 
+<statementlist> -> <statement> <statementlist> 
 <statementlist> -> <statement> <statementlist> 
 <statementlist> -> <statement> <statementlist> 
 <statementlist> -> <statement> <statementlist> 

@@ -1,0 +1,154 @@
+
+[inlinecmt, // ====== Class declarations ====== //, 1] 
+[class, class, 2] [id, POLYNOMIAL, 2] [{, {, 2] 
+[public, public, 3] [func, func, 3] [id, evaluate, 3] [(, (, 3] [float, float, 3] [id, x, 3] [), ), 3] [:, :, 3] [float, float, 3] [;, ;, 3] [inlinecmt, // error , not defined, 3] 
+[public, public, 4] [func, func, 4] [id, testArr, 4] [(, (, 4] [integer, integer, 4] [id, arr, 4] [[, [, 4] [], ], 4] [[, [, 4] [], ], 4] [,, ,, 4] [integer, integer, 4] [id, index, 4] [), ), 4] [:, :, 4] [integer, integer, 4] [;, ;, 4] 
+[}, }, 5] [;, ;, 5] 
+
+[class, class, 7] [id, LINEAR, 7] [inherits, inherits, 7] [id, POLYNOMIAL, 7] [{, {, 7] 
+[private, private, 8] [float, float, 8] [id, a, 8] [;, ;, 8] 
+[private, private, 9] [float, float, 9] [id, b, 9] [;, ;, 9] 
+
+[public, public, 11] [func, func, 11] [id, build, 11] [(, (, 11] [float, float, 11] [id, A, 11] [,, ,, 11] [float, float, 11] [id, B, 11] [), ), 11] [:, :, 11] [id, LINEAR, 11] [;, ;, 11] 
+[public, public, 12] [func, func, 12] [id, evaluate, 12] [(, (, 12] [float, float, 12] [id, x, 12] [), ), 12] [:, :, 12] [float, float, 12] [;, ;, 12] 
+[}, }, 13] [;, ;, 13] 
+
+[class, class, 15] [id, QUADRATIC, 15] [inherits, inherits, 15] [id, POLYNOMIAL, 15] [{, {, 15] 
+[private, private, 16] [float, float, 16] [id, a, 16] [;, ;, 16] 
+[private, private, 17] [float, float, 17] [id, b, 17] [;, ;, 17] 
+[private, private, 18] [float, float, 18] [id, c, 18] [;, ;, 18] 
+
+[public, public, 20] [func, func, 20] [id, build, 20] [(, (, 20] [float, float, 20] [id, A, 20] [,, ,, 20] [float, float, 20] [id, B, 20] [,, ,, 20] [float, float, 20] [id, C, 20] [), ), 20] [:, :, 20] [id, QUADRATIC, 20] [;, ;, 20] 
+[inlinecmt, //public func evaluate(float x) : float; // no define, 21] 
+[public, public, 22] [func, func, 22] [id, evaluate, 22] [(, (, 22] [integer, integer, 22] [id, x, 22] [), ), 22] [:, :, 22] [float, float, 22] [;, ;, 22] [inlinecmt, // warning, overloading, 22] 
+[}, }, 23] [;, ;, 23] 
+
+
+[class, class, 26] [id, CircularTest, 26] [inherits, inherits, 26] [id, AA, 26] [{, {, 26] [inlinecmt, // error, Circular class dependencies, 26] 
+
+[}, }, 28] [;, ;, 28] 
+
+[class, class, 30] [id, AA, 30] [inherits, inherits, 30] [id, BB, 30] [{, {, 30] 
+
+[}, }, 32] [;, ;, 32] 
+
+[class, class, 34] [id, BB, 34] [inherits, inherits, 34] [id, CircularTest, 34] [{, {, 34] 
+
+[}, }, 36] [;, ;, 36] 
+
+
+
+[inlinecmt, // ====== Function Definitions ====== //, 40] 
+
+[func, func, 42] [id, LINEAR, 42] [sr, ::, 42] [id, evaluate, 42] [(, (, 42] [float, float, 42] [id, x, 42] [), ), 42] [:, :, 42] [float, float, 42] 
+[{, {, 43] 
+[var, var, 44] 
+[{, {, 45] 
+[float, float, 46] [id, result, 46] [;, ;, 46] 
+[}, }, 47] 
+[id, result, 48] [=, =, 48] [floatlit, 0.0, 48] [;, ;, 48] 
+[id, result, 49] [=, =, 49] [id, a, 49] [*, *, 49] [id, x, 49] [+, +, 49] [id, b, 49] [;, ;, 49] 
+[return, return, 50] [(, (, 50] [id, result, 50] [), ), 50] [;, ;, 50] 
+[}, }, 51] 
+
+[func, func, 53] [id, QUADRATIC, 53] [sr, ::, 53] [id, evaluate, 53] [(, (, 53] [float, float, 53] [id, x, 53] [), ), 53] [:, :, 53] [float, float, 53] 
+[{, {, 54] 
+[var, var, 55] 
+[{, {, 56] 
+[float, float, 57] [id, result, 57] [;, ;, 57] 
+[}, }, 58] 
+[inlinecmt, //Using Horner's method, 59] 
+[id, result, 60] [=, =, 60] [id, a, 60] [;, ;, 60] 
+[id, result, 61] [=, =, 61] [id, result, 61] [*, *, 61] [id, x, 61] [+, +, 61] [id, b, 61] [;, ;, 61] 
+[id, result, 62] [=, =, 62] [id, result, 62] [*, *, 62] [id, x, 62] [+, +, 62] [id, c, 62] [;, ;, 62] 
+[return, return, 63] [(, (, 63] [id, result, 63] [), ), 63] [;, ;, 63] 
+[}, }, 64] 
+
+
+[func, func, 67] [id, QUADRATIC, 67] [sr, ::, 67] [id, evaluate, 67] [(, (, 67] [integer, integer, 67] [id, x, 67] [), ), 67] [:, :, 67] [float, float, 67] 
+[{, {, 68] 
+[var, var, 69] 
+[{, {, 70] 
+[float, float, 71] [id, result, 71] [;, ;, 71] 
+[}, }, 72] 
+
+[inlinecmt, //result = a;   // type error, 74] 
+[inlinecmt, //result = result * x + b;  // type error, 75] 
+[inlinecmt, //result = result * x + c; // type error, 76] 
+[inlinecmt, //return (result);, 77] 
+[}, }, 78] 
+
+
+[func, func, 81] [id, LINEAR, 81] [sr, ::, 81] [id, build, 81] [(, (, 81] [float, float, 81] [id, A, 81] [,, ,, 81] [float, float, 81] [id, B, 81] [), ), 81] [:, :, 81] [id, LINEAR, 81] 
+[{, {, 82] 
+[var, var, 83] 
+[{, {, 84] 
+[id, LINEAR, 85] [id, new_function, 85] [;, ;, 85] 
+[}, }, 86] 
+[id, new_function, 87] [., ., 87] [id, a, 87] [=, =, 87] [id, A, 87] [;, ;, 87] 
+[id, new_function, 88] [., ., 88] [id, b, 88] [=, =, 88] [id, B, 88] [;, ;, 88] 
+[return, return, 89] [(, (, 89] [id, new_function, 89] [), ), 89] [;, ;, 89] 
+[}, }, 90] 
+
+[func, func, 92] [id, QUADRATIC, 92] [sr, ::, 92] [id, build, 92] [(, (, 92] [float, float, 92] [id, A, 92] [,, ,, 92] [float, float, 92] [id, B, 92] [,, ,, 92] [float, float, 92] [id, C, 92] [), ), 92] [:, :, 92] [id, QUADRATIC, 92] 
+[{, {, 93] 
+[var, var, 94] 
+[{, {, 95] 
+[id, QUADRATIC, 96] [id, new_function, 96] [;, ;, 96] 
+[}, }, 97] 
+[id, new_function, 98] [., ., 98] [id, a, 98] [=, =, 98] [id, A, 98] [;, ;, 98] 
+[id, new_function, 99] [., ., 99] [id, b, 99] [=, =, 99] [id, B, 99] [;, ;, 99] 
+[id, new_function, 100] [., ., 100] [id, c, 100] [=, =, 100] [id, C, 100] [;, ;, 100] 
+[return, return, 101] [(, (, 101] [id, new_function, 101] [), ), 101] [;, ;, 101] 
+[}, }, 102] 
+
+[func, func, 104] [id, POLYNOMIAL, 104] [sr, ::, 104] [id, testArr, 104] [(, (, 104] [integer, integer, 104] [id, arr, 104] [[, [, 104] [], ], 104] [[, [, 104] [], ], 104] [,, ,, 104] [integer, integer, 104] [id, index, 104] [), ), 104] [:, :, 104] [integer, integer, 104] [inlinecmt, // testing for dimension of param, 104] 
+[{, {, 105] 
+[var, var, 106] 
+[{, {, 107] 
+[integer, integer, 108] [id, result, 108] [;, ;, 108] 
+[}, }, 109] 
+[id, result, 110] [=, =, 110] [id, arr, 110] [[, [, 110] [intlit, 1, 110] [], ], 110] [[, [, 110] [intlit, 2, 110] [], ], 110] [+, +, 110] [id, index, 110] [;, ;, 110] 
+[}, }, 111] 
+
+
+
+
+[inlinecmt, // ====== main ====== //, 116] 
+[main, main, 117] 
+[{, {, 118] 
+[var, var, 119] 
+[{, {, 120] 
+[id, aaaa, 121] [id, linear1, 121] [;, ;, 121] 
+[id, QUADRATIC, 122] [id, quadratic2, 122] [;, ;, 122] 
+[integer, integer, 123] [id, counter, 123] [;, ;, 123] 
+[float, float, 124] [id, floatCounter, 124] [;, ;, 124] 
+[id, POLYNOMIAL, 125] [id, test, 125] [;, ;, 125] 
+[integer, integer, 126] [id, arr, 126] [[, [, 126] [intlit, 6, 126] [], ], 126] [;, ;, 126] [inlinecmt, // can modify dim to test function call, 126] 
+[}, }, 127] 
+[id, arr, 128] [[, [, 128] [id, floatCounter, 128] [], ], 128] [=, =, 128] [intlit, 0, 128] [;, ;, 128] [inlinecmt, // error, index must be integer, 128] 
+[id, arr, 129] [[, [, 129] [intlit, 0, 129] [], ], 129] [[, [, 129] [intlit, 0, 129] [], ], 129] [=, =, 129] [intlit, 1, 129] [;, ;, 129] [inlinecmt, // error, wrong dimension, 129] 
+
+[id, linear1, 131] [=, =, 131] [id, linear1, 131] [., ., 131] [id, build, 131] [(, (, 131] [intlit, 2, 131] [,, ,, 131] [floatlit, 3.5, 131] [), ), 131] [;, ;, 131] [inlinecmt, // error,need build(float,float), 131] 
+[id, quadratic2, 132] [=, =, 132] [id, quadratic2, 132] [., ., 132] [id, build, 132] [(, (, 132] [-, -, 132] [floatlit, 2.0, 132] [,, ,, 132] [floatlit, 1.0, 132] [,, ,, 132] [floatlit, 0.0, 132] [), ), 132] [;, ;, 132] 
+
+[id, counter, 134] [=, =, 134] [intlit, 1, 134] [;, ;, 134] [inlinecmt, // integer counter, 134] 
+[id, floatCounter, 135] [=, =, 135] [floatlit, 1.0, 135] [;, ;, 135] 
+[id, test, 136] [., ., 136] [id, testArr, 136] [(, (, 136] [id, arr, 136] [,, ,, 136] [intlit, 0, 136] [), ), 136] [;, ;, 136] [inlinecmt, // testing function call, 136] 
+
+[id, counter, 138] [., ., 138] [id, ab, 138] [=, =, 138] [intlit, 0, 138] [;, ;, 138] [inlinecmt, // error, count isn't a class, 138] 
+[id, linear1, 139] [., ., 139] [id, ab, 139] [=, =, 139] [intlit, 0, 139] [;, ;, 139] [inlinecmt, // error, class LINEAR doesn't have var ab, 139] 
+
+[id, a, 141] [=, =, 141] [intlit, 1, 141] [+, +, 141] [floatlit, 0.1, 141] [+, +, 141] [intlit, 2, 141] [;, ;, 141] 
+
+[while, while, 143] [(, (, 143] [id, counter, 143] [leq, <=, 143] [intlit, 10, 143] [), ), 143] 
+[{, {, 144] 
+[write, write, 145] [(, (, 145] [id, counter, 145] [), ), 145] [;, ;, 145] 
+[id, evaluate, 146] [(, (, 146] [id, counter, 146] [), ), 146] [;, ;, 146] [inlinecmt, // error,  param must be float, 146] 
+[id, linear1, 147] [., ., 147] [id, evaluate, 147] [(, (, 147] [id, counter, 147] [), ), 147] [;, ;, 147] [inlinecmt, // error, evaluate(float x), 147] 
+[id, linear1, 148] [., ., 148] [id, evaluate, 148] [(, (, 148] [id, floatCounter, 148] [), ), 148] [;, ;, 148] [inlinecmt, // good, 148] 
+[id, quadratic2, 149] [., ., 149] [id, evaluate, 149] [(, (, 149] [id, counter, 149] [), ), 149] [;, ;, 149] [inlinecmt, // good, call overloading function evaluate(integer x), 149] 
+[}, }, 150] [;, ;, 150] 
+[}, }, 151] 
+
+[blockcmt, /* \n1.   |X| global symbol table\n2.   |X| class symbol table\n3.1  |X| class data member\n3.2  |X| function's local variable\n4.1  |X| free function\n4.2  |X| member function\n6.1  | | undeclared member function definition\n6.2  | | undefined member function declaration\n8.1  | | multiply declared class\n8.2  | | multiply declared free function\n8.3  | | multiply declared identifier in class\n8.4  | | multiply declared identifier in function\n8.5  | | shadowed inherited data member\n9.1  | | Overloaded free function\n9.2  | | Overloaded member function\n9.3  | | Overridden inherited member function\n10.1 | | Type error in expression\n10.2 | | Type error in assignment statement\n10.3 | | Type error in return statement\n11.1 | | Undeclared local variable\n11.2 | | Undeclared data member\n11.3 | | Undeclared member function\n11.4 | | Undeclared free function\n11.5 | | Undeclared class\n12.1 | | Function call with wrong number of parameters\n12.2 | | Function call with wrong type of parameters\n13.1 | | Use of array with wrong number of dimensions\n13.2 | | Array index is not an integer\n13.3 | | Array parameter using wrong number of dimensions\n14.1 | | Circular class dependency\n15.1 | | "." operator used on non-class type\n*/, 153] 
