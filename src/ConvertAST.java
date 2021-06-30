@@ -16,7 +16,7 @@ public class ConvertAST {
 
     public Node generateNewAST(ASTNode astRoot) throws IOException {
 
-        while (astRoot.id == 0 || astRoot.type.compareTo("<start>") == 0){
+        while (astRoot.id == 0 || astRoot.type.equals("<start>")){
             astRoot = astRoot.childrenList.get(0);
         }
 
@@ -116,12 +116,12 @@ public class ConvertAST {
 
         // var and fparam declare
 //        System.out.println("root type: " + root.type);
-        if(root.type.compareTo("'id'") == 0){
+        if(root.type.equals("'id'")){
             Node id = new IdNode(root.name);
             id.m_nodeId = getID();
             return id;
 
-        } else if (root.type.compareTo("<vardecl>") == 0 || root.type.compareTo("<fparam>") == 0) {
+        } else if (root.type.equals("<vardecl>")|| root.type.equals("<fparam>")) {
             //<varDecl> ::= <type> 'id' <ArraySizeRept> ';'
             //<fParam> ::= <type> 'id' <ArraySizeRept>
             Node varDel = new VarDeclNode();
@@ -138,7 +138,7 @@ public class ConvertAST {
                 }
             }
             int childrenNum = root.childrenList.size();
-            if (childrenNum > 0 && root.childrenList.get(childrenNum - 1).type.compareTo("<arraysizerept>") == 0) {
+            if (childrenNum > 0 && root.childrenList.get(childrenNum - 1).type.equals("<arraysizerept>")) {
                 ASTNode arraysize = root.childrenList.get(childrenNum - 1);
                 Node dimlist = new DimListNode();
                 dimlist.m_nodeId = getID();
@@ -160,7 +160,7 @@ public class ConvertAST {
             }
             return varDel;
 
-        } else if (root.type.compareTo("<fparams>") == 0 ){
+        } else if (root.type.equals("<fparams>")){
             //<fParams> ::= <fParam> <FParamsTail>
             Node paramList = new ParamListNode();
             paramList.m_nodeId = getID();
@@ -170,7 +170,7 @@ public class ConvertAST {
             }
             return paramList;
 
-        }else if (root.type.compareTo("<funcdecl>") == 0 ){
+        }else if (root.type.equals("<funcdecl>") ){
             // <funcDecl> ::= 'func' 'id' '(' <fParams> ')' ':' <funcDeclTail> ';'
             //<funcDeclTail> ::= <type>
             //<funcDeclTail> ::= 'void'
@@ -183,7 +183,7 @@ public class ConvertAST {
             }
             return funcdecl;
 
-        }else if(root.type.compareTo("<funcdecltail>") == 0){
+        }else if(root.type.equals("<funcdecltail>")){
             Node type = null;
             if(root.childrenList.size()>0){
                 type = new TypeNode(root.childrenList.get(0).name);
@@ -212,7 +212,7 @@ public class ConvertAST {
                 return classdeclbody;
             }
 
-        } else if(root.type.compareTo("<classdeclbodylist>") == 0){
+        } else if(root.type.equals("<classdeclbodylist>")){
             //<ClassDeclBodyList> ::= <ClassDeclBody> <ClassDeclBodyList>
             Node classdeclbodylist = new ClassDeclBodyList();
             classdeclbodylist.m_nodeId = getID();
@@ -222,7 +222,7 @@ public class ConvertAST {
             }
             return classdeclbodylist;
 
-        }else if(root.type.compareTo("<inherit>") == 0){
+        }else if(root.type.equals("<inherit>")){
             // <Inherit>
             Node inheritList = new InheritListNode();
             inheritList.m_nodeId = getID();
@@ -234,22 +234,22 @@ public class ConvertAST {
             }
             return inheritList;
 
-        } else if(root.type.compareTo("<classdecl>") == 0){
+        } else if(root.type.equals("<classdecl>")){
             //<classDecl> ::= 'class' 'id' <Inherit> '{' <ClassDeclBodyList> '}' ';'
             Node classdecl = new ClassNode();
             classdecl.m_nodeId = getID();
             for(ASTNode child : root.childrenList){
-                if(child.type.compareTo("'id'")==0){
+                if(child.type.equals("'id'")){
                     Node id = new IdNode(child.name);
                     id.m_nodeId = getID();
                     classdecl.addChild(id);
-                } else if(child.type.compareTo("<inherit>")==0){
+                } else if(child.type.equals("<inherit>")){
                     Node inheritList = generateSubTree(child);
                     for(Node inheritNode : inheritList.getChildren()){
                         classdecl.addChild(inheritNode);
                     }
 
-                }else if(child.type.compareTo("<classdeclbodylist>")==0){
+                }else if(child.type.equals("<classdeclbodylist>")){
                     Node classdeclbodylist = generateSubTree(child);
                     for(Node classdeclbody : classdeclbodylist.getChildren()){
                         classdecl.addChild(classdeclbody);
@@ -258,7 +258,7 @@ public class ConvertAST {
             }
             return classdecl;
 
-        }else if(root.type.compareTo("<classdecllist>") == 0){
+        }else if(root.type.equals("<classdecllist>")){
             //<prog> ::= <classDeclList> <FuncDef> 'main' <funcBody>
             //<classDeclList> ::= <classDecl> <classDeclList>
             Node classdecllist = new ClassListNode();
@@ -269,7 +269,7 @@ public class ConvertAST {
             }
             return classdecllist;
 
-        }else if(root.type.compareTo("<funchead>") == 0){
+        }else if(root.type.equals("<funchead>")){
             // function define
             //<Function> ::= <funcHead> <funcBody>
             //<funcHead> ::= 'func' 'id' <ClassMethod> '(' <fParams> ')' ':' <funcDeclTail>
@@ -277,34 +277,34 @@ public class ConvertAST {
             //<ClassMethod> ::= EPSILON
             Node funchead = new FuncHeadNode();
             funchead.m_nodeId = getID();
-            if(root.childrenList.size()>1 && root.childrenList.get(1).type.compareTo("<classmethod>")==0){
+            if(root.childrenList.size()>1 && root.childrenList.get(1).type.equals("<classmethod>")){
                 for(ASTNode child : root.childrenList){
-                    if(child.type.compareTo("'id'")==0){
+                    if(child.type.equals("'id'")){
                         Node classmethod = new ClassMethodNode(child.name);
                         classmethod.m_nodeId = getID();
                         funchead.addChild(classmethod);
-                    }else if(child.type.compareTo("<classmethod>")==0){
+                    }else if(child.type.equals("<classmethod>")){
                         Node id = new IdNode(child.childrenList.get(0).name);
                         id.m_nodeId = getID();
                         funchead.addChild(id);
-                    }else if(child.type.compareTo("<fparams>")==0){
+                    }else if(child.type.equals("<fparams>")){
                         Node fparams = generateSubTree(child);
                         funchead.addChild(fparams);
-                    }else if(child.type.compareTo("<funcdecltail>")==0){
+                    }else if(child.type.equals("<funcdecltail>")){
                         Node type = generateSubTree(child);
                         funchead.addChild(type);
                     }
                 }
             }else {
                 for(ASTNode child : root.childrenList){
-                    if(child.type.compareTo("'id'")==0){
+                    if(child.type.equals("'id'")){
                         Node id = new IdNode(child.name);
                         id.m_nodeId = getID();
                         funchead.addChild(id);
-                    }else if(child.type.compareTo("<fparams>")==0){
+                    }else if(child.type.equals("<fparams>")){
                         Node fparams = generateSubTree(child);
                         funchead.addChild(fparams);
-                    }else if(child.type.compareTo("<funcdecltail>")==0){
+                    }else if(child.type.equals("<funcdecltail>")){
                         Node type = generateSubTree(child);
                         funchead.addChild(type);
                     }
@@ -312,7 +312,7 @@ public class ConvertAST {
             }
             return funchead;
 
-        }else if(root.type.compareTo("<vardeclrep>") == 0){
+        }else if(root.type.equals("<vardeclrep>")){
             //<VarDeclRep> ::= <varDecl> <VarDeclRep>
             Node vardeclList = new VarDeclListNode();
             vardeclList.m_nodeId = getID();
@@ -322,13 +322,13 @@ public class ConvertAST {
             }
             return vardeclList;
 
-        }else if(root.type.compareTo("<statement>") == 0){
+        }else if(root.type.equals("<statement>")){
             //<StatementList> ::= <statement> <StatementList>
             Node statement = generateStatSubtree(root);
             statement.m_nodeId = getID();
             return statement;
 
-        }else if(root.type.compareTo("<statementlist>") == 0){
+        }else if(root.type.equals("<statementlist>")){
             //<StatementList> ::= <statement> <StatementList>
             Node stateList = new StatBlockNode();
             stateList.m_nodeId = getID();
@@ -338,7 +338,7 @@ public class ConvertAST {
             }
             return stateList;
 
-        }else if(root.type.compareTo("<funcbody>") == 0){
+        }else if(root.type.equals("<funcbody>")){
             //<funcBody> ::= '{' <vardeclrep> <statementlist> '}'
 //            Node funcbody = new FuncBodyNode();
             Node programBlockNode = new ProgramBlockNode();
@@ -349,7 +349,7 @@ public class ConvertAST {
             }
             return programBlockNode;
 
-        } else if(root.type.compareTo("<function>") == 0){
+        } else if(root.type.equals("<function>")){
             //<Function> ::= <funcHead> <funcBody>
             Node function = new FuncDefNode();
             function.m_nodeId = getID();
@@ -362,7 +362,7 @@ public class ConvertAST {
             }
             return function;
 
-        }else if(root.type.compareTo("<funcdef>") == 0){
+        }else if(root.type.equals("<funcdef>")){
             //<prog> ::= <classDeclList> <FuncDef> 'main' <funcBody>
             //<FuncDef> ::= <Function> <FuncDef>
             Node funcdefList = new FuncDefListNode();
@@ -372,7 +372,7 @@ public class ConvertAST {
                 funcdefList.addChild(node);
             }
             return funcdefList;
-        }else if(root.type.compareTo("<prog>") == 0){
+        }else if(root.type.equals("<prog>")){
             //<prog> ::= <classDeclList> <FuncDef> 'main' <funcBody>
             Node prog = new ProgNode();
             prog.m_nodeId = getID();
@@ -400,7 +400,7 @@ public class ConvertAST {
         //<statement> ::= 'continue' ';'
         Node newRoot = null;
 
-        if(root.name.compareTo("'if'")==0){
+        if(root.name.equals("'if'")){
             newRoot = new IfStatNode();
             newRoot.m_nodeId = getID();
             for(ASTNode child : root.childrenList){
@@ -408,7 +408,7 @@ public class ConvertAST {
                 newRoot.addChild(newNode);
             }
 
-        }else if(root.name.compareTo("'while'")==0){
+        }else if(root.name.equals("'while'")){
             newRoot = new WhileStatNode();
             newRoot.m_nodeId = getID();
             for(ASTNode child : root.childrenList){
@@ -416,33 +416,33 @@ public class ConvertAST {
                 newRoot.addChild(newNode);
             }
 
-        }else if(root.name.compareTo("'read'")==0){
+        }else if(root.name.equals("'read'")){
             newRoot = new ReadStatNode();
             newRoot.m_nodeId = getID();
             Node child = getBottomNode(root.childrenList.get(0));
             newRoot.addChild(child);
 
-        }else if(root.name.compareTo("'write'")==0){
+        }else if(root.name.equals("'write'")){
             newRoot = new WriteStatNode();
             newRoot.m_nodeId = getID();
             Node child = getBottomNode(root.childrenList.get(0));
             newRoot.addChild(child);
 
-        }else if(root.name.compareTo("'return'")==0){
+        }else if(root.name.equals("'return'")){
             newRoot = new ReturnStatNode();
             newRoot.m_nodeId = getID();
             Node child = getBottomNode(root.childrenList.get(0));
             newRoot.addChild(child);
 
-        }else if(root.name.compareTo("'break'")==0){
+        }else if(root.name.equals("'break'")){
             newRoot = new BreakStatNode();
             newRoot.m_nodeId = getID();
 
-        }else if(root.name.compareTo("'continue'")==0){
+        }else if(root.name.equals("'continue'")){
             newRoot = new ContinueStatNode();
             newRoot.m_nodeId = getID();
 
-        }else if(root.childrenList.size()==1 && root.childrenList.get(0).type.compareTo("<assignop>")==0){
+        }else if(root.childrenList.size()==1 && root.childrenList.get(0).type.equals("<assignop>")){
             newRoot = new AssignStatNode();
             newRoot.m_nodeId = getID();
             root = root.childrenList.get(0);
@@ -451,7 +451,7 @@ public class ConvertAST {
                 newRoot.addChild(newNode);
             }
 
-        }else if(root.childrenList.size()==1 && root.childrenList.get(0).type.compareTo("<funcorassignstat>")==0){
+        }else if(root.childrenList.size()==1 && root.childrenList.get(0).type.equals("<funcorassignstat>")){
             newRoot = new FuncCallNode();
             newRoot.m_nodeId = getID();
             root = root.childrenList.get(0);
@@ -493,46 +493,45 @@ public class ConvertAST {
             }
         }else if(root.childrenList.size() == 1){
             //即使只有一个child，也要保留的root
-            if(root.type.compareTo("<indicerep>")==0){
+            if(root.type.equals("<indicerep>")){
                 bottomNode = new IndiceRepNode();
                 bottomNode.m_nodeId = getID();
                 Node indice = getBottomNode(root.childrenList.get(0));
                 bottomNode.addChild(indice);
 
-            }else if(root.type.compareTo("<aparams>")==0){
+            }else if(root.type.equals("<aparams>")){
                 bottomNode = new AparamList();
                 bottomNode.m_nodeId = getID();
                 Node aparam = getBottomNode(root.childrenList.get(0));
                 bottomNode.addChild(aparam);
 
-            }else if(root.type.compareTo("<sign>")==0){
+            }else if(root.type.equals("<sign>")){
                 bottomNode = new SignNode(root.name.substring(1,root.name.length()-1));
                 bottomNode.m_nodeId = getID();
                 Node signData = getBottomNode(root.childrenList.get(0));
                 bottomNode.addChild(signData);
 
-            }else if(root.type.compareTo("<not>")==0){
+            }else if(root.type.equals("<not>")){
                 bottomNode = new NotNode();
                 bottomNode.m_nodeId = getID();
                 Node notData = getBottomNode(root.childrenList.get(0));
                 bottomNode.addChild(notData);
 
-            }else if(root.type.compareTo("<statblock>")==0 && root.childrenList.get(0).type.compareTo("<statement>") == 0){
+            }else if(root.type.equals("<statblock>") && root.childrenList.get(0).type.equals("<statement>") ){
                 bottomNode = new StatBlockNode();
                 bottomNode.m_nodeId = getID();
                 Node statblock = generateSubTree(root.childrenList.get(0));
                 bottomNode.addChild(statblock);
 
-            }else if(root.type.compareTo("<statblock>")==0 && root.childrenList.get(0).type.compareTo("<statementlist>") == 0){
+            }else if(root.type.equals("<statblock>") && root.childrenList.get(0).type.equals("<statementlist>")){
                 bottomNode = new StatBlockNode();
                 bottomNode.m_nodeId = getID();
                 bottomNode = generateSubTree(root.childrenList.get(0));
-
             }else {
                 bottomNode = getBottomNode(root.childrenList.get(0));
             }
         }else if(root.childrenList.size() > 1){
-            if(root.type.compareTo("<funcorvar>")==0 && isFunc(root)){
+            if(root.type.equals("<funcorvar>") && isFunc(root)){
                 //function
                 bottomNode = new FuncCallNode();
                 bottomNode.m_nodeId = getID();
@@ -540,7 +539,7 @@ public class ConvertAST {
                     Node newNode = getBottomNode(child);
                     bottomNode.addChild(newNode);
                 }
-            }else if(root.type.compareTo("<funcorvar>")==0 && !isFunc(root)){
+            }else if(root.type.equals("<funcorvar>") && !isFunc(root)){
                 //var
                 bottomNode = new VarNode();
                 bottomNode.m_nodeId = getID();
@@ -549,14 +548,14 @@ public class ConvertAST {
                     bottomNode.addChild(newNode);
                 }
 
-            }else if(root.type.compareTo("<aparams>")==0){
+            }else if(root.type.equals("<aparams>")){
                 bottomNode = new AparamList();
                 bottomNode.m_nodeId = getID();
                 for(ASTNode child : root.childrenList){
                     Node newNode = getBottomNode(child);
                     bottomNode.addChild(newNode);
                 }
-            }else if(root.type.compareTo("<addop>")==0){
+            }else if(root.type.equals("<addop>")){
                 //用m_data来记录符号
                 bottomNode = new AddOpNode(root.name);
                 bottomNode.m_nodeId = getID();
@@ -564,7 +563,7 @@ public class ConvertAST {
                     Node newNode = getBottomNode(child);
                     bottomNode.addChild(newNode);
                 }
-            }else if(root.type.compareTo("<multop>")==0){
+            }else if(root.type.equals("<multop>")){
                 //expr
                 bottomNode = new MultOpNode(root.name);
                 bottomNode.m_nodeId = getID();
@@ -572,7 +571,7 @@ public class ConvertAST {
                     Node newNode = getBottomNode(child);
                     bottomNode.addChild(newNode);
                 }
-            }else if(root.type.compareTo("<relop>")==0){
+            }else if(root.type.equals("<relop>")){
                 //expr
                 bottomNode = new RelOpNode(root.name);
                 bottomNode.m_nodeId = getID();
@@ -581,7 +580,7 @@ public class ConvertAST {
                     bottomNode.addChild(newNode);
                 }
 
-            }else if(root.type.compareTo("<qm>")==0){
+            }else if(root.type.equals("<qm>")){
                 //expr
                 bottomNode = new QmNode();
                 bottomNode.m_nodeId = getID();
@@ -590,7 +589,7 @@ public class ConvertAST {
                     bottomNode.addChild(newNode);
                 }
 
-            }else if(root.type.compareTo("<indicerep>")==0){
+            }else if(root.type.equals("<indicerep>")){
                 bottomNode = new IndiceRepNode();
                 bottomNode.m_nodeId = getID();
                 for(ASTNode child : root.childrenList){
@@ -598,7 +597,7 @@ public class ConvertAST {
                     bottomNode.addChild(newNode);
                 }
 
-            }else if(root.type.compareTo("<var>")==0 ){
+            }else if(root.type.equals("<var>") ){
                 //这个var可能会是function call
                 // 但是在assign左边不能是function call
                 // 在op左边有可能是function call, 如果是function call，会直接显示callNode（问题解决了）
@@ -608,7 +607,7 @@ public class ConvertAST {
                     Node newNode = getBottomNode(child);
                     bottomNode.addChild(newNode);
                 }
-            }else if(root.type.compareTo("<variable>")==0 ){
+            }else if(root.type.equals("<variable>") ){
                 //variable 不能是function call
                 //<statement> ::= 'read' '(' <variable> ')' ';'
                 bottomNode = new VarNode();
@@ -628,7 +627,7 @@ public class ConvertAST {
     public Boolean isFunc(ASTNode root){
         Boolean result = false;
         for(ASTNode child : root.childrenList){
-            if(child.type.compareTo("<aparams>")==0){
+            if(child.type.equals("<aparams>")){
                 result = true;
                 break;
             }
