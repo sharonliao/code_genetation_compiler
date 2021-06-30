@@ -107,16 +107,6 @@ public class SymTabCreationVisitor extends Visitor {
         }
     }
 
-    public void checkInheritShadow(SymTab subTable, SymTabEntry curEntry ){
-		//检查是否有继承
-		//检查是否和继承类有重名的
-		for(SymTabEntry entry : subTable.m_symlist){
-			if(entry.getClass().getSimpleName().equals("InheritEntry")){
-				//进去inherit link
-				//但是有可能这时候的class还没link上
-			}
-		}
-	}
 
 	public boolean checkDuplicateName(SymTab subTable, SymTabEntry curEntry ){
 //		1. check subtable
